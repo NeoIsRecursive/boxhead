@@ -1,8 +1,14 @@
-import './style.css'
+import * as PIXI from 'pixi.js';
+import character from './assets/character.png';
 
-const app = document.querySelector<HTMLDivElement>('#app')!
+let app = new PIXI.Application({
+  width: 640,
+  height: 400,
+  backgroundColor: 0xfafafa,
+});
 
-app.innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+const sprite = PIXI.Sprite.from(character);
+
+app.stage.addChild(sprite);
+
+document.getElementById('app')!.appendChild(app.view);
