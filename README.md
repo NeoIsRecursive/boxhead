@@ -1,8 +1,8 @@
-INSERT MANDATORY GIF
+![gif](https://c.tenor.com/v1Aa0wigtKQAAAAd/boxhead.gif)
 
-# Project Title
+# Boxhead
 
-Text about the project and which JavaScript library you're using. This would also be a great place to link the game on Netlify.
+A remake of the flashgame Boxhead, made with pixi.js & typescript.
 
 # Installation
 
