@@ -5,6 +5,7 @@ class Player {
   sprite: PIXI.Sprite;
   position = { x: 40, y: 50 };
   controlls = { up: 'w', left: 'a', down: 's', right: 'd' };
+  speed = 4;
 
   constructor(id: number, app: PIXI.Application) {
     this.id = id;
@@ -13,11 +14,11 @@ class Player {
   }
 
   update(dt: number, keys: boolean[]) {
-    if (keys[this.controlls.up]) this.position.y -= 0.1;
-    if (keys[this.controlls.down]) this.position.y += 0.1;
-    if (keys[this.controlls.left]) this.position.x -= 0.1;
-    if (keys[this.controlls.right]) this.position.x += 0.1;
-    console.log(this.position.x);
+    const speed = this.speed * dt;
+    if (keys[this.controlls.up]) this.position.y -= speed;
+    if (keys[this.controlls.down]) this.position.y += speed;
+    if (keys[this.controlls.left]) this.position.x -= speed;
+    if (keys[this.controlls.right]) this.position.x += speed;
   }
 
   draw() {

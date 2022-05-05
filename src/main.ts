@@ -26,10 +26,13 @@ const GameLoop = (dt: number) => {
   [player].forEach((entity) => {
     entity.draw();
   });
-  requestAnimationFrame(GameLoop);
 };
 
 //dt is delta time
-app.ticker.add((dt) => GameLoop(dt));
+app.ticker.maxFPS = 60;
+
+app.ticker.add((dt) => {
+  GameLoop(dt);
+});
 
 document.getElementById('app')!.appendChild(app.view);
