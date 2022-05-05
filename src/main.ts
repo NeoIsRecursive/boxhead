@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import character from './assets/character.png';
+import Player from './scripts/player/Player';
 
 let app = new PIXI.Application({
   width: 640,
@@ -7,8 +7,29 @@ let app = new PIXI.Application({
   backgroundColor: 0xfafafa,
 });
 
-const sprite = PIXI.Sprite.from(character);
+const keys: boolean[] = [];
 
-app.stage.addChild(sprite);
+window.addEventListener('keydown', (e: KeyboardEvent) => {
+  keys[e.key] = true;
+});
+window.addEventListener('keyup', function (e) {
+  keys[e.key] = false;
+});
+
+const player = new Player(1, app);
+player.draw();
+
+const GameLoop = (dt: number) => {
+  [player].forEach((entity) => {
+    entity.update(dt, keys);
+  });
+  [player].forEach((entity) => {
+    entity.draw();
+  });
+  requestAnimationFrame(GameLoop);
+};
+
+//dt is delta time
+app.ticker.add((dt) => GameLoop(dt));
 
 document.getElementById('app')!.appendChild(app.view);
