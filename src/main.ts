@@ -1,5 +1,8 @@
 import * as PIXI from 'pixi.js';
 import Player from './scripts/player/Player';
+import setUpKeys from './scripts/player/Controller';
+
+setUpKeys();
 
 let app = new PIXI.Application({
   width: 640,
@@ -7,30 +10,20 @@ let app = new PIXI.Application({
   backgroundColor: 0xfafafa,
 });
 
-const keys: boolean[] = [];
-
-window.addEventListener('keydown', (e: KeyboardEvent) => {
-  keys[e.key] = true;
-});
-window.addEventListener('keyup', function (e) {
-  keys[e.key] = false;
-});
-
 const player = new Player(1, app);
 player.draw();
 
 const GameLoop = (dt: number) => {
   [player].forEach((entity) => {
-    entity.update(dt, keys);
+    entity.update(dt);
   });
   [player].forEach((entity) => {
     entity.draw();
   });
 };
 
-//dt is delta time
 app.ticker.maxFPS = 60;
-
+//dt is delta time
 app.ticker.add((dt) => {
   GameLoop(dt);
 });

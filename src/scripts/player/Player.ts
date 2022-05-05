@@ -13,12 +13,12 @@ class Player {
     app.stage.addChild(this.sprite);
   }
 
-  update(dt: number, keys: boolean[]) {
+  update(dt: number) {
     const speed = this.speed * dt;
-    if (keys[this.controlls.up]) this.position.y -= speed;
-    if (keys[this.controlls.down]) this.position.y += speed;
-    if (keys[this.controlls.left]) this.position.x -= speed;
-    if (keys[this.controlls.right]) this.position.x += speed;
+    if (window.keys.get(this.controlls.up)) this.position.y -= speed;
+    if (window.keys.get(this.controlls.down)) this.position.y += speed;
+    if (window.keys.get(this.controlls.left)) this.position.x -= speed;
+    if (window.keys.get(this.controlls.right)) this.position.x += speed;
   }
 
   draw() {
