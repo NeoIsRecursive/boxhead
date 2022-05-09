@@ -3,6 +3,8 @@ import Player from './scripts/player/Player';
 import Wall from './scripts/entities/Wall';
 import setUpKeys from './scripts/player/Controller';
 
+import Collision from './scripts/utils/Collision';
+
 setUpKeys();
 
 let app = new PIXI.Application({
@@ -14,11 +16,14 @@ let app = new PIXI.Application({
 const player = new Player(1, app);
 player.draw();
 
-const wall = new Wall();
+const wall = new Wall(2, app);
 wall.draw(app);
 
 const GameLoop = (dt: number) => {
   [player].forEach((entity) => {
+    if (Collision(wall, player)) {
+      console.log('Hit'); //Testing things out
+    }
     entity.update(dt);
   });
   [player].forEach((entity) => {
