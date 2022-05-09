@@ -2,7 +2,6 @@ import * as PIXI from 'pixi.js';
 import Player from './scripts/player/Player';
 import Wall from './scripts/entities/Wall';
 import setUpKeys from './scripts/player/Controller';
-import Wall from './scripts/entities/Wall';
 
 setUpKeys();
 
