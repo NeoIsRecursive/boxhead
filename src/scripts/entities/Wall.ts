@@ -13,14 +13,17 @@ class Wall extends Entity {
       bottom: app.screen.height,
     };
     this.sprite.height = this.size.height;
-    this.sprite.width = this.size.width;
+    this.sprite.width = 70;
 
-    this.position.set(app.screen.width / 2, app.screen.height / 2);
+    this.position.set(app.screen.width / 2 - 200, app.screen.height / 2);
 
     app.stage.addChild(this.sprite);
   }
 
-  draw() {}
+  draw() {
+    this.sprite.x = this.position.x;
+    this.sprite.y = this.position.y;
+  }
 }
 
 export default Wall;
