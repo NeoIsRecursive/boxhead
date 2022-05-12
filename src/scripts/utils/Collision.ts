@@ -8,9 +8,9 @@ function Collision(a: Entity, b: Entity): boolean {
   //Will fix later!!!
   return (
     aHitBox.x + aHitBox.width > bHitBox.x &&
-    aHitBox.x < bHitBox.x &&
+    aHitBox.x < bHitBox.x + bHitBox.width &&
     aHitBox.y + aHitBox.height > bHitBox.y &&
-    aHitBox.y < bHitBox.y
+    aHitBox.y < bHitBox.y + bHitBox.height
   );
 }
 
