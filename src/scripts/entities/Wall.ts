@@ -3,7 +3,6 @@ import * as PIXI from 'pixi.js';
 import Entity from './Entity';
 
 class Wall extends Entity {
-  rectangle = new PIXI.Graphics();
   constructor(id: number, app: PIXI.Application) {
     super(id, PIXI.Sprite.from(wall));
     this.bounds = {
