@@ -22,8 +22,19 @@ wall.draw(app);
 const GameLoop = (dt: number) => {
   [player].forEach((entity) => {
     if (Collision(wall, player)) {
+      let aHitBox = wall.sprite.getBounds();
+      let bHitBox = player.sprite.getBounds();
+
+      const Xout = aHitBox.x + aHitBox.width - bHitBox.x;
+      const Yout = aHitBox.y + aHitBox.width - bHitBox.y;
+
+      console.log(Xout);
+      player.position.x = player.position.x + Xout;
+      player.position.y = player.position.y + Yout;
+
       console.log('Hit'); //Testing things out
     }
+
     entity.update(dt);
   });
   [player].forEach((entity) => {
