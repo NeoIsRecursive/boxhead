@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 import Contain from '../utils/Contain';
 import Entity from '../entities/Entity';
 import Bounds from '../../types/Bounds';
-import Vec from '../utils/Vec';
+import { Vector } from 'p5js-vector-standalone';
 
 class Player extends Entity {
   bounds: Bounds;
@@ -12,7 +12,7 @@ class Player extends Entity {
   goingDown = (): boolean => window.keys.get(this.controlls.down) || false;
   goingLeft = (): boolean => window.keys.get(this.controlls.left) || false;
   goingRight = (): boolean => window.keys.get(this.controlls.right) || false;
-  vel = new Vec(0, 0);
+  vel = new Vector(0, 0);
   speed = 4;
 
   constructor(id: number, app: PIXI.Application) {
