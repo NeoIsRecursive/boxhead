@@ -25,6 +25,9 @@ const GameLoop = (dt: number) => {
   [player, hitbox].forEach((entity) => {
     if (Collision(hitbox, wall)) {
       console.log('Hit'); //Testing things out
+      player.speed = 0
+    } else {
+      player.speed = 4
     }
     entity.update(dt);
   });

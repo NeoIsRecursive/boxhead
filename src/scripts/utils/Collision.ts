@@ -5,9 +5,6 @@ import Hitbox from '../player/Hitbox';
 function Collision(a: Hitbox, b: Entity): boolean {
   let aHitBox = a.hitbox;
   let bHitBox = b.sprite.getBounds();
-  console.log(aHitBox.x);
-  console.log(bHitBox.x);
-
   return (
     aHitBox.x + aHitBox.width > bHitBox.x &&
     aHitBox.x < bHitBox.x + bHitBox.width &&
