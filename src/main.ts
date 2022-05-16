@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import Player from './scripts/player/Player';
 import Wall from './scripts/entities/Wall';
 import setUpKeys from './scripts/player/Controller';
-
+import Hitbox from './scripts/player/Hitbox';
 import Collision from './scripts/utils/Collision';
 
 setUpKeys();
@@ -17,24 +17,15 @@ const player = new Player(1, app);
 player.draw();
 
 const wall = new Wall(2, app);
-wall.draw(app);
+wall.draw();
+
+const hitbox = new Hitbox(3, app, player);
 
 const GameLoop = (dt: number) => {
-  [player].forEach((entity) => {
-    if (Collision(wall, player)) {
-      let aHitBox = wall.sprite.getBounds();
-      let bHitBox = player.sprite.getBounds();
-
-      const Xout = aHitBox.x + aHitBox.width - bHitBox.x;
-      const Yout = aHitBox.y + aHitBox.width - bHitBox.y;
-
-      console.log(Xout);
-      player.position.x = player.position.x + Xout;
-      player.position.y = player.position.y + Yout;
-
+  [player, hitbox].forEach((entity) => {
+    if (Collision(hitbox, wall)) {
       console.log('Hit'); //Testing things out
     }
-
     entity.update(dt);
   });
   [player].forEach((entity) => {

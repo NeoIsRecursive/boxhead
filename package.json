@@ -12,6 +12,7 @@
     "vite": "^2.9.5"
   },
   "dependencies": {
+    "p5js-vector-standalone": "^1.2.1",
     "pixi.js": "^6.3.0"
   }
 }
