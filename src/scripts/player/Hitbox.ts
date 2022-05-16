@@ -7,16 +7,14 @@ class Hitbox {
 
   player;
 
-
   constructor(id: number, app: PIXI.Application, Player: Player) {
-    this.hitbox.beginFill(0x66ccff);
     this.hitbox.drawRect(0, 0, 32, 60);
     this.hitbox.endFill();
     this.hitbox.x = 0;
     this.hitbox.y = 0;
     app.stage.addChild(this.hitbox);
 
-    this.distance = 10
+    this.distance = 10;
     this.player = Player;
   }
 
