@@ -24,10 +24,10 @@ const hitbox = new Hitbox(3, app, player);
 const GameLoop = (dt: number) => {
   [player, hitbox].forEach((entity) => {
     if (Collision(hitbox, wall)) {
+      player.speed = 0;
       console.log('Hit'); //Testing things out
-      player.speed = 0
     } else {
-      player.speed = 4
+      player.speed = 4;
     }
     entity.update(dt);
   });
