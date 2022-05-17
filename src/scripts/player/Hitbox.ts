@@ -8,6 +8,7 @@ class Hitbox {
   player;
 
   constructor(id: number, app: PIXI.Application, Player: Player) {
+    //this.hitbox.beginFill(0x66ccff);
     this.hitbox.drawRect(0, 0, 32, 60);
     this.hitbox.endFill();
     this.hitbox.x = 0;
