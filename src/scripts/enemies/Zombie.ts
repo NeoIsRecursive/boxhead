@@ -9,84 +9,43 @@ export default class Zombie extends Entity {
     super(id, PIXI.Sprite.from(character));
     this.sprite.height = this.size.height;
     this.sprite.width = this.size.width;
+    this.velDisplay = new PIXI.Graphics();
+
+    app.stage.addChild(this.sprite);
+    app.stage.addChild(this.velDisplay);
     app.stage.addChild(this.sprite);
     this.windowHeight = app.screen.height;
     this.windowWidth = app.screen.width;
   }
-  vel = new Vector(
-    Math.random() * 2 < 1 ? -1 : 1,
-    Math.random() * 2 > 1 ? -1 : 1
-  );
+  vel = new Vector(0);
 
   windowHeight: number;
   windowWidth: number;
-  maxSpeed = 3;
-  desiredSeparation = 20;
-  radius = 50;
+  velDisplay: PIXI.Graphics;
+  hitpoints = 100;
+  damage = 10;
+  maxSpeed = 2;
 
-  update(dt: number, player: Player, b: Zombie[]) {
-    this.vel.add(this.cohesion(b));
-    this.vel.add(this.alignment(b));
-    this.vel.add(this.separation(b));
-    this.vel.add(player.position.copy().sub(this.position).mult(1.5));
-    this.vel.limit(this.maxSpeed);
-    console.log(this.vel);
+  update(dt: number, players: Player[], grid: Vector[][]) {
+    const x = Math.floor(this.position.x * 0.05);
+    const y = Math.floor(this.position.y * 0.05);
 
-    if (this.position.x < 0) this.vel.x = 4;
-    if (this.position.y < 0) this.vel.y = 4;
-    if (this.position.x > this.windowWidth - this.size.width) this.vel.x = -4;
-    if (this.position.y > this.windowHeight - this.size.height) this.vel.y = -4;
-    this.position.add(this.vel.mult(dt));
+    this.vel.set(grid[x][y]);
+    this.position.add(this.vel);
   }
 
   draw() {
     this.sprite.position.set(this.position.x, this.position.y);
-  }
 
-  cohesion(b: Zombie[]): Vector {
-    const cohesion = new Vector(0);
-    let count = 0;
-    b.forEach((boid) => {
-      if (
-        boid !== this &&
-        Math.abs(this.position.dist(boid.position)) < this.radius
-      ) {
-        cohesion.add(boid.position);
-        count += 1;
-      }
-    });
-    cohesion.div(count);
+    this.velDisplay.clear();
 
-    return cohesion.sub(this.position).mult(0.1);
-  }
-  alignment(b: Zombie[]): Vector {
-    const alignment = new Vector(0);
-    let count = 0;
-    b.forEach((boid) => {
-      if (
-        boid !== this &&
-        Math.abs(this.position.dist(boid.position)) < this.radius
-      ) {
-        alignment.add(boid.vel);
-        count += 1;
-      }
-    });
-    alignment.div(count);
-
-    return alignment.sub(this.position).div(100);
-  }
-
-  separation(b: Zombie[]): Vector {
-    const separation = this.position.copy();
-    let count = 0;
-    b.forEach((boid) => {
-      const dist = this.position.dist(boid.position);
-      if (boid !== this && dist < this.radius) {
-        separation.sub(boid.position.copy().div(dist / 10));
-        count++;
-      }
-    });
-    separation.div(count);
-    return separation;
+    this.velDisplay.position.set(
+      this.position.x + this.size.width * 0.5,
+      this.position.y + this.size.height * 0.5
+    );
+    this.velDisplay
+      .lineStyle(5, 0x000000)
+      .moveTo(0, 0)
+      .lineTo(this.vel.x * 10, this.vel.y * 10);
   }
 }

@@ -13,8 +13,10 @@ class Player extends Entity {
   goingLeft = (): boolean => window.keys.get(this.controlls.left) || false;
   goingRight = (): boolean => window.keys.get(this.controlls.right) || false;
   vel = new Vector(0, 0);
+  lookingAt = new Vector(0, 0);
   speed = 4;
-
+  aimStick: PIXI.Graphics;
+  hitpoints = 100;
   constructor(id: number, app: PIXI.Application) {
     super(id, PIXI.Sprite.from(character));
     this.bounds = {
@@ -27,8 +29,10 @@ class Player extends Entity {
     this.sprite.width = this.size.width;
 
     this.position.set(app.screen.width / 2, app.screen.height / 2);
+    this.aimStick = new PIXI.Graphics();
 
     app.stage.addChild(this.sprite);
+    app.stage.addChild(this.aimStick);
   }
 
   update(dt: number) {
@@ -42,7 +46,7 @@ class Player extends Entity {
 
     this.vel.set(vel.x, vel.y);
     this.position.add(this.vel.x * speed, this.vel.y * speed);
-
+    this.lookingAt.set(this.vel).normalize();
     const hit = Contain(this, this.bounds);
     if (hit.top) this.position.y = this.bounds.top;
     if (hit.bottom) this.position.y = this.bounds.bottom - this.size.height;
@@ -53,6 +57,24 @@ class Player extends Entity {
   draw() {
     this.sprite.x = this.position.x;
     this.sprite.y = this.position.y;
+
+    this.aimStick.clear();
+
+    this.aimStick.position.set(
+      this.position.x + this.size.width * 0.5,
+      this.position.y + this.size.height * 0.5
+    );
+    this.aimStick
+      .lineStyle(5, 0x000000)
+      .moveTo(0, 0)
+      .lineTo(this.lookingAt.x * 32, this.lookingAt.y * 32);
+  }
+
+  damage(inflicted: number) {
+    this.hitpoints -= inflicted;
+    if (this.hitpoints <= 0) {
+      console.log('dead');
+    }
   }
 }
 

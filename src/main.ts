@@ -2,17 +2,23 @@ import * as PIXI from 'pixi.js';
 import Player from './scripts/player/Player';
 import setUpKeys from './scripts/player/Controller';
 import Zombie from './scripts/enemies/Zombie';
+import FlowField from './scripts/enemies/flowField';
 
 setUpKeys();
 
+const width = 640;
+const height = 400;
+const res = 20;
+
 let app = new PIXI.Application({
-  width: 640,
-  height: 400,
+  width,
+  height,
   backgroundColor: 0xfafafa,
 });
 
-const player = new Player(1, app);
-player.draw();
+const flowField = new FlowField(width, height, res);
+
+const players = [new Player(1, app), new Player(2, app)];
 
 const enemies: Zombie[] = [];
 
@@ -24,17 +30,31 @@ for (let index = 0; index < 10; index++) {
 }
 
 const GameLoop = (dt: number) => {
-  [player, ...enemies].forEach((entity) => {
-    entity.update(dt, player, enemies);
+  const entities = [...players, ...enemies];
+
+  flowField.update(players);
+  const grid = flowField.getGrid();
+  entities.forEach((entity) => {
+    entity.update(dt, players, grid);
   });
 
-  [player, ...enemies].forEach((entity) => {
+  entities.forEach((entity) => {
     entity.draw();
   });
+
+  // flowField.getGrid().forEach((col, xindex) =>
+  //   col.forEach((row, yindex) => {
+  //     const test = new PIXI.Graphics();
+  //     test.lineStyle({ width: 2, color: 0x000000 });
+  //     test.drawRect(xindex * res, yindex * res, res, res);
+  //     // console.log({ xindex, yindex, row });
+  //     app.stage.addChild(test);
+  //   })
+  // );
 };
 
 app.ticker.maxFPS = 60;
-//dt is delta time
+// dt is delta time
 app.ticker.add((dt) => {
   GameLoop(dt);
 });
