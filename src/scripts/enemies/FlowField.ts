@@ -15,12 +15,7 @@ class FlowField {
     for (let x = 0; x < rows; x++) {
       grid.push([]);
       for (let y = 0; y < cols; y++) {
-        grid[x].push(
-          new Vector(
-            Math.random() * 2 < 1 ? -1 : 1,
-            Math.random() * 2 > 1 ? -1 : 1
-          )
-        );
+        grid[x].push(new Vector(0));
       }
     }
 
