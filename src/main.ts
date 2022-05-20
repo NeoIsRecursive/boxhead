@@ -1,7 +1,11 @@
 import * as PIXI from 'pixi.js';
 import Player from './scripts/player/Player';
+import Wall from './scripts/entities/Wall';
 import setUpKeys from './scripts/player/Controller';
+
 import Zombie from './scripts/enemies/Zombie';
+import Hitbox from './scripts/player/Hitbox';
+import Collision from './scripts/utils/Collision';
 
 setUpKeys();
 
@@ -29,6 +33,9 @@ for (let index = 0; index < 10; index++) {
     Math.floor(randomy / res) * res
   );
 }
+
+const wall = new Wall(2, app);
+wall.draw();
 
 const GameLoop = (dt: number) => {
   const entities = [...players, ...enemies];
