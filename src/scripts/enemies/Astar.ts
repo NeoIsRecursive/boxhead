@@ -12,6 +12,7 @@ export default class Astar {
   #path: PIXI.Graphics;
   #grid: Spot[][];
   #res: number;
+  #emptyVec = new Vector(0);
 
   #colFromPos = (x: number) => Math.floor(x / this.#res);
 
@@ -19,37 +20,46 @@ export default class Astar {
     const grid = [...this.#grid];
     let openSet: Spot[] = [];
     const closedSet: Spot[] = [];
-
-    console.log(this.#colFromPos(zombie.x), this.#colFromPos(zombie.y));
     let start = grid[this.#colFromPos(zombie.x)][this.#colFromPos(zombie.y)];
     let end = grid[this.#colFromPos(goal.x)][this.#colFromPos(goal.y)];
+
+    if (start === end) {
+      return this.#emptyVec;
+    }
 
     openSet.push(start);
 
     while (openSet.length > 0) {
       let winner = 0;
       for (let i = 0; i < openSet.length - 1; i++) {
-        if (openSet[i].f <= openSet[winner].f) {
+        if (openSet[i].f < openSet[winner].f) {
           winner = i;
         }
       }
 
       let current = openSet[winner];
 
-      if (current == end) {
-        console.log('end');
+      if (current === end) {
         let temp = current;
         const path = [current];
+        let count = 0;
         while (temp.previos) {
           let xvel = temp.x - temp.previos.x;
           let yvel = temp.y - temp.previos.y;
           temp.vec.set(xvel, yvel);
           path.push(temp.previos);
-          temp = temp.previos;
+          if (temp.previos.previos === temp || temp.previos === temp) {
+            temp.previos = undefined;
+          } else {
+            temp = temp.previos;
+            if (count++ > 30) {
+              console.log('what');
+              break;
+            }
+          }
         }
-        path.pop();
-        this.#draw(path);
-        return path.pop()!.vec;
+        //this.#draw(path);
+        return path[path.length - 2].vec;
       }
       openSet = openSet.filter((item) => item !== current);
       closedSet.push(current);
@@ -63,16 +73,18 @@ export default class Astar {
             openSet.push(neighbor);
           }
 
-          neighbor.h = Vector.dist(
+          /*           neighbor.h = Vector.dist(
             new Vector(neighbor.x, neighbor.y),
             new Vector(end.x, end.y)
-          );
+          ); */
+          neighbor.h =
+            Math.abs(end.x - neighbor.x) + Math.abs(end.y - neighbor.y);
           neighbor.f = neighbor.g + neighbor.h;
           neighbor.previos = current;
         }
       });
     }
-    return new Vector(0, 0);
+    return this.#emptyVec;
   }
 
   #draw(spots: Spot[]) {

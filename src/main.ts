@@ -20,11 +20,14 @@ players[0].draw();
 
 const enemies: Zombie[] = [];
 
-for (let index = 0; index < 1; index++) {
+for (let index = 0; index < 10; index++) {
   enemies.push(new Zombie(index, app));
   const randomX = Math.floor(Math.random() * app.screen.width);
   const randomy = Math.floor(Math.random() * app.screen.height);
-  enemies[index].position.set(randomX, randomy);
+  enemies[index].position.set(
+    Math.floor(randomX / res) * res,
+    Math.floor(randomy / res) * res
+  );
 }
 
 const GameLoop = (dt: number) => {
@@ -42,7 +45,7 @@ const GameLoop = (dt: number) => {
 app.ticker.maxFPS = 60;
 // dt is delta time
 app.ticker.add((dt) => {
-  GameLoop(dt);
+  GameLoop(1);
 });
 
 document.getElementById('app')!.appendChild(app.view);

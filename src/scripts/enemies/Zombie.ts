@@ -30,9 +30,7 @@ export default class Zombie extends Entity {
 
   update(dt: number, players: Player[]) {
     const spot = this.#pathFinder.getPath(this.position, players[0].position);
-    console.log(spot);
-    this.position.x += spot.x * dt;
-    this.position.y += spot.y * dt;
+    this.position.add(spot.mult(dt));
   }
 
   draw() {
