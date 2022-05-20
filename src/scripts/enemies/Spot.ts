@@ -11,6 +11,7 @@ export default class Spot {
   f = 0;
   g = 0;
   h = 0;
+  walkable = true;
   previos?: Spot;
   neighbors: Spot[] = [];
 

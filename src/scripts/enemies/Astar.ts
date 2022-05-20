@@ -1,11 +1,16 @@
 import { Vector } from 'p5js-vector-standalone';
 import Spot from './Spot';
 import * as PIXI from 'pixi.js';
+import Entity from '../entities/Entity';
 
 export default class Astar {
-  constructor(res: number, app: PIXI.Application) {
+  constructor(res: number, obstacles: Entity[], app: PIXI.Application) {
     this.#res = res;
-    this.#grid = this.#generateGrid(app.screen.width, app.screen.height);
+    this.#grid = this.#generateGrid(
+      obstacles,
+      app.screen.width,
+      app.screen.height
+    );
     this.#path = new PIXI.Graphics();
     app.stage.addChild(this.#path);
   }
@@ -26,7 +31,6 @@ export default class Astar {
     if (start === end) {
       return this.#emptyVec;
     }
-
     openSet.push(start);
 
     while (openSet.length > 0) {
@@ -58,13 +62,13 @@ export default class Astar {
             }
           }
         }
-        //this.#draw(path);
+        this.#draw(path);
         return path[path.length - 2].vec;
       }
       openSet = openSet.filter((item) => item !== current);
       closedSet.push(current);
       current.neighbors.forEach((neighbor) => {
-        if (!closedSet.includes(neighbor)) {
+        if (!closedSet.includes(neighbor) && neighbor.walkable) {
           const tempG = current.g + 1;
           if (tempG < neighbor.g) {
             neighbor.g = tempG;
@@ -91,14 +95,16 @@ export default class Astar {
     spots = [...spots];
     this.#path.clear();
     const first = spots.shift();
-    this.#path.lineStyle(5, 0x000000).moveTo(first!.x * 32, first!.y * 32);
+    this.#path
+      .lineStyle(5, 0x000000)
+      .moveTo(first!.x * 32 + 16, first!.y * 32 + 16);
     spots.forEach((spot) => {
-      this.#path.lineTo(spot.x * 32, spot.y * 32);
+      this.#path.lineTo(spot.x * 32 + 16, spot.y * 32 + 16);
     });
     this.#path.endFill();
   }
 
-  #generateGrid(height: number, width: number) {
+  #generateGrid(obstacles: Entity[], height: number, width: number) {
     const grid: Spot[][] = [];
     const cols = width / this.#res;
     const rows = height / this.#res;
@@ -109,8 +115,13 @@ export default class Astar {
       }
     }
 
-    grid.forEach((x) => x.forEach((g) => g.setNeighbors(grid)));
+    obstacles.forEach((wall) => {
+      grid[this.#colFromPos(wall.position.x)][
+        this.#colFromPos(wall.position.y)
+      ].walkable = false;
+    });
 
+    grid.forEach((x) => x.forEach((g) => g.setNeighbors(grid)));
     return grid;
   }
 }
