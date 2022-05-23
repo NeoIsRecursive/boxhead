@@ -42,6 +42,7 @@ class Player extends Entity {
   goingDown = (): boolean => window.keys.get(this.controlls.down) || false;
   goingLeft = (): boolean => window.keys.get(this.controlls.left) || false;
   goingRight = (): boolean => window.keys.get(this.controlls.right) || false;
+  firing = (): boolean => window.keys.get(this.controlls.fire) || false;
   vel = new Vector(0, 0);
   lookingAt = new Vector(0, 0);
   speed = 4;
@@ -92,7 +93,6 @@ class Player extends Entity {
       }
     }
 
-<<<<<<< HEAD
     this.vel.set(vel.x, vel.y).limit(1);
     if (this.vel.magSq() > 0) {
       this.lookingAt.set(this.vel);
@@ -103,25 +103,8 @@ class Player extends Entity {
         this.sprite.play();
       }
     }
-<<<<<<< HEAD
     const force = Matter.Vector.create(this.vel.x * speed, this.vel.y * speed);
     Matter.Body.applyForce(this.body, this.body.position, force);
-=======
-
-=======
-    this.vel.set(vel.x, vel.y);
->>>>>>> 8240b17 (Basic direction for guns)
-    this.position.add(this.vel.x * speed, this.vel.y * speed);
-
-    // if (this.vel.y < 0) this.sprite.textures = this.animations['idle_left'];
-    // if (this.vel.y < 0) this.sprite.textures = this.animations['idle_left'];
-
-    const hit = Contain(this, this.bounds);
-    if (hit.top) this.position.y = this.bounds.top;
-    if (hit.bottom) this.position.y = this.bounds.bottom - this.size.height;
-    if (hit.left) this.position.x = this.bounds.left;
-    if (hit.right) this.position.x = this.bounds.right - this.size.width;
->>>>>>> 3be0edf (Checkout and rebase from master to weapons)
   }
 
   draw() {

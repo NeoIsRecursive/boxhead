@@ -3,7 +3,7 @@ import { Loader } from 'pixi.js';
 import Game from './scripts/Game';
 import Menu from './scripts/Menu';
 import Zombie from './scripts/enemies/Zombie';
-import Pistol from './scripts/weapons/Weapons';
+import Weapon from './scripts/weapons/Weapon';
 
 setUpKeys();
 
