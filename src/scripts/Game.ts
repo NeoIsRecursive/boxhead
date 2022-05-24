@@ -6,14 +6,14 @@ import { RandomEvenPos } from './utils/RandomCol';
 import { AnimatedSprite } from 'pixi.js';
 
 export default class Game {
-  constructor(loader: PIXI.Loader, element: HTMLElement) {
-    this.#app = new PIXI.Application({
-      width: this.#width,
-      height: this.#height,
-      backgroundColor: 0xfafafa,
-    });
+  constructor(
+    app: PIXI.Application,
+    loader: PIXI.Loader,
+    element: HTMLElement
+  ) {
+    this.#app = app;
     this.loader = loader;
-    this.loader.add('player', './assets/player/player.json').load(this.setup);
+    console.log(this);
     element.appendChild(this.#app.view);
   }
   loader: PIXI.Loader;
@@ -26,15 +26,15 @@ export default class Game {
   #app;
 
   setup() {
-    this.players = [
+    console.log(this.players);
+    this.players.push(
       new Player(
         1,
         this.#app,
-        new AnimatedSprite(
-          this.loader.resources['player'].spritesheet!.animations['idle_left']
-        )
-      ),
-    ];
+        this.loader.resources['player'].spritesheet!.animations
+      )
+    );
+
     this.players[0].draw();
 
     for (let index = 0; index < 100; index++) {
@@ -63,6 +63,6 @@ export default class Game {
   }
 
   #start() {
-    this.#app.ticker.add(this.#Loop);
+    this.#app.ticker.add((dt) => this.#Loop(dt));
   }
 }

@@ -6,16 +6,21 @@ import Bounds from '../../types/Bounds';
 import { Vector } from 'p5js-vector-standalone';
 
 class Player extends Entity {
-  constructor(id: number, app: PIXI.Application, sprite: PIXI.AnimatedSprite) {
-    super(id, sprite);
+  constructor(id: number, app: PIXI.Application, animations: PIXI.Texture[]) {
+    super(id, new PIXI.AnimatedSprite(animations['idle_left']));
     this.bounds = {
       left: 0,
       right: app.screen.width,
       top: 0,
       bottom: app.screen.height,
     };
+    this.animations = animations;
+    this.sprite = new PIXI.AnimatedSprite(this.animations['idle_left']);
     this.sprite.height = this.size.height;
     this.sprite.width = this.size.width;
+    this.sprite.animationSpeed = 0.1;
+    this.sprite.loop = true;
+    this.sprite.play();
 
     this.position.set(app.screen.width / 2, app.screen.height / 2);
     this.aimStick = new PIXI.Graphics();
@@ -23,6 +28,7 @@ class Player extends Entity {
     app.stage.addChild(this.sprite);
     app.stage.addChild(this.aimStick);
   }
+  animations: PIXI.Texture[];
   bounds: Bounds;
   controlls = { up: 'w', left: 'a', down: 's', right: 'd' };
   goingUp = (): boolean => window.keys.get(this.controlls.up) || false;
@@ -32,6 +38,7 @@ class Player extends Entity {
   vel = new Vector(0, 0);
   lookingAt = new Vector(0, 0);
   speed = 4;
+  sprite: PIXI.AnimatedSprite;
   aimStick: PIXI.Graphics;
   hitpoints = 100;
 
@@ -45,8 +52,18 @@ class Player extends Entity {
     if (this.goingRight()) vel.x = 1;
 
     this.vel.set(vel.x, vel.y);
+
+    if (this.vel.magSq() !== 0) {
+      this.lookingAt.set(this.vel);
+    }
     this.position.add(this.vel.x * speed, this.vel.y * speed);
-    this.lookingAt.set(this.vel).normalize();
+
+    if (this.vel.x < 0) this.sprite.textures = this.animations['run_left'];
+    if (this.vel.x > 0) this.sprite.textures = this.animations['run_right'];
+    this.sprite.play();
+    // if (this.vel.y < 0) this.sprite.textures = this.animations['idle_left'];
+    // if (this.vel.y < 0) this.sprite.textures = this.animations['idle_left'];
+
     const hit = Contain(this, this.bounds);
     if (hit.top) this.position.y = this.bounds.top;
     if (hit.bottom) this.position.y = this.bounds.bottom - this.size.height;
