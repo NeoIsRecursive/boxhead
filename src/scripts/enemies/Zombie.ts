@@ -8,10 +8,10 @@ import Astar from './Astar';
 export default class Zombie extends Entity {
   constructor(id: number, app: PIXI.Application, obstacles: Entity[]) {
     super(id, PIXI.Sprite.from(character));
-    this.sprite.height = this.size.height;
-    this.sprite.width = this.size.width;
+    this.sprite!.height = this.size.height;
+    this.sprite!.width = this.size.width;
 
-    app.stage.addChild(this.sprite);
+    app.stage.addChild(this.sprite!);
     this.windowHeight = app.screen.height;
     this.windowWidth = app.screen.width;
 
@@ -45,6 +45,6 @@ export default class Zombie extends Entity {
   }
 
   draw() {
-    this.sprite.position.set(this.position.x - 16, this.position.y - 16);
+    this.sprite!.position.set(this.position.x, this.position.y);
   }
 }

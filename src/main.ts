@@ -1,8 +1,7 @@
 import * as PIXI from 'pixi.js';
-import Player from './scripts/player/Player';
+import Player, { newPlayer } from './scripts/player/Player';
 import Wall from './scripts/entities/Wall';
 import setUpKeys from './scripts/player/Controller';
-
 import Zombie from './scripts/enemies/Zombie';
 import Hitbox from './scripts/player/Hitbox';
 import Collision from './scripts/utils/Collision';
@@ -10,48 +9,61 @@ import { RandomEvenPos } from './scripts/utils/RandomCol';
 
 setUpKeys();
 
-const width = 640;
-const height = 480;
-const res = 32;
+class Game {
+  constructor() {
+    PIXI.Loader.shared
+      .add('player', './assets/player/player.json')
+      .load(this.setup);
+  }
+  players: Player[] = [];
+  enemies: Zombie[] = [];
+  walls: Wall[] = [];
 
-let app = new PIXI.Application({
-  width,
-  height,
-  backgroundColor: 0xfafafa,
-});
+  #width = 640;
+  #height = 480;
+  #res = 32;
 
-const players = [new Player(1, app)];
-players[0].draw();
-
-const enemies: Zombie[] = [];
-
-const walls: Wall[] = [];
-for (let index = 0; index < 100; index++) {
-  walls.push(new Wall(index, app));
-}
-
-for (let index = 0; index < 10; index++) {
-  enemies.push(new Zombie(index, app, walls));
-  const pos = RandomEvenPos(width, height, res);
-  enemies[index].position.set(pos.x + 16, pos.y + 16);
-}
-
-const GameLoop = (dt: number) => {
-  const entities = [...players, ...enemies];
-
-  entities.forEach((entity) => {
-    entity.update(dt, players);
+  app = new PIXI.Application({
+    width: this.#width,
+    height: this.#height,
+    backgroundColor: 0xfafafa,
   });
 
-  [...entities, ...walls].forEach((entity) => {
-    entity.draw();
-  });
-};
+  setup() {
+    console.log(newPlayer(1, this.app));
+    this.players = [newPlayer(1, this.app)];
+    this.players[0].draw();
 
-app.ticker.maxFPS = 60;
-// dt is delta time
-app.ticker.add((dt) => {
-  GameLoop(1);
-});
+    for (let index = 0; index < 100; index++) {
+      this.walls.push(new Wall(index, this.app));
+    }
 
-document.getElementById('app')!.appendChild(app.view);
+    for (let index = 0; index < 10; index++) {
+      this.enemies.push(new Zombie(index, this.app, this.walls));
+      const pos = RandomEvenPos(this.#width, this.#height, this.#res);
+      this.enemies[index].position.set(pos.x, pos.y);
+    }
+
+    game.start();
+  }
+
+  #Loop(dt: number) {
+    const entities = [...this.players, ...this.enemies];
+
+    entities.forEach((entity) => {
+      entity.update(dt, this.players);
+    });
+
+    [...entities, ...this.walls].forEach((entity) => {
+      entity.draw();
+    });
+  }
+
+  start() {
+    this.app.ticker.add(this.#Loop);
+  }
+}
+
+const game = new Game();
+
+document.getElementById('app')!.appendChild(game.app.view);

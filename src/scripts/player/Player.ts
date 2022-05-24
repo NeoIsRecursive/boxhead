@@ -1,24 +1,23 @@
-import character from '../../assets/character.png';
+//import character from '../../assets/knight/texture.json';
 import * as PIXI from 'pixi.js';
 import Contain from '../utils/Contain';
 import Entity from '../entities/Entity';
 import Bounds from '../../types/Bounds';
 import { Vector } from 'p5js-vector-standalone';
 
+function newPlayer(id: number, app: PIXI.Application) {
+  let sheet = PIXI.Loader.shared.resources['player'].spritesheet;
+
+  return new Player(
+    id,
+    app,
+    new PIXI.AnimatedSprite(sheet!.animations['idle_left'])
+  );
+}
+
 class Player extends Entity {
-  bounds: Bounds;
-  controlls = { up: 'w', left: 'a', down: 's', right: 'd' };
-  goingUp = (): boolean => window.keys.get(this.controlls.up) || false;
-  goingDown = (): boolean => window.keys.get(this.controlls.down) || false;
-  goingLeft = (): boolean => window.keys.get(this.controlls.left) || false;
-  goingRight = (): boolean => window.keys.get(this.controlls.right) || false;
-  vel = new Vector(0, 0);
-  lookingAt = new Vector(0, 0);
-  speed = 4;
-  aimStick: PIXI.Graphics;
-  hitpoints = 100;
-  constructor(id: number, app: PIXI.Application) {
-    super(id, PIXI.Sprite.from(character));
+  constructor(id: number, app: PIXI.Application, sprite: PIXI.AnimatedSprite) {
+    super(id, sprite);
     this.bounds = {
       left: 0,
       right: app.screen.width,
@@ -34,6 +33,17 @@ class Player extends Entity {
     app.stage.addChild(this.sprite);
     app.stage.addChild(this.aimStick);
   }
+  bounds: Bounds;
+  controlls = { up: 'w', left: 'a', down: 's', right: 'd' };
+  goingUp = (): boolean => window.keys.get(this.controlls.up) || false;
+  goingDown = (): boolean => window.keys.get(this.controlls.down) || false;
+  goingLeft = (): boolean => window.keys.get(this.controlls.left) || false;
+  goingRight = (): boolean => window.keys.get(this.controlls.right) || false;
+  vel = new Vector(0, 0);
+  lookingAt = new Vector(0, 0);
+  speed = 4;
+  aimStick: PIXI.Graphics;
+  hitpoints = 100;
 
   update(dt: number) {
     const vel = { x: 0, y: 0 };
@@ -79,3 +89,4 @@ class Player extends Entity {
 }
 
 export default Player;
+export { newPlayer };
