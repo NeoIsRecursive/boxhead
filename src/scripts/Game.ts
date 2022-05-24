@@ -2,16 +2,16 @@ import * as PIXI from 'pixi.js';
 import Player from './player/Player';
 import Wall from './entities/Wall';
 import Zombie from './enemies/Zombie';
-import { RandomEvenPos } from './utils/RandomCol';
-import { Spritesheet } from 'pixi.js';
 
 export default class Game {
-  constructor(
-    app: PIXI.Application,
-    loader: PIXI.Loader,
-    element: HTMLElement
-  ) {
-    this.#app = app;
+  constructor(loader: PIXI.Loader, element: HTMLElement) {
+    this.#app = new PIXI.Application({
+      backgroundColor: 0xfafafa,
+      width: this.#width,
+      height: this.#height,
+    });
+    this.#app.screen.width = this.#width;
+    this.#app.screen.height = this.#height;
     this.loader = loader;
     element.appendChild(this.#app.view);
   }
@@ -21,7 +21,7 @@ export default class Game {
   walls: Wall[] = [];
   #width = 640;
   #height = 480;
-  #res = 32;
+  //#res = 32;
   #app;
 
   setup() {

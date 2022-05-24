@@ -91,7 +91,7 @@ export default class Astar {
     return this.#emptyVec;
   }
 
-  #draw(spots: Spot[]) {
+  /*   #draw(spots: Spot[]) {
     spots = [...spots];
     this.#path.clear();
     const first = spots.shift();
@@ -102,7 +102,7 @@ export default class Astar {
       this.#path.lineTo(spot.x * 32 + 16, spot.y * 32 + 16);
     });
     this.#path.endFill();
-  }
+  } */
 
   #generateGrid(obstacles: Entity[], height: number, width: number) {
     const grid: Spot[][] = [];
