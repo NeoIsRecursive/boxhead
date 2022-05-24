@@ -4,9 +4,14 @@ import Contain from '../utils/Contain';
 import Entity from '../entities/Entity';
 import Bounds from '../../types/Bounds';
 import { Vector } from 'p5js-vector-standalone';
+import { Dict } from '@pixi/utils';
 
 class Player extends Entity {
-  constructor(id: number, app: PIXI.Application, animations: PIXI.Texture[]) {
+  constructor(
+    id: number,
+    app: PIXI.Application,
+    animations: Dict<PIXI.Texture<PIXI.Resource>[]>
+  ) {
     super(id, new PIXI.AnimatedSprite(animations['idle_left']));
     this.bounds = {
       left: 0,
@@ -28,7 +33,7 @@ class Player extends Entity {
     app.stage.addChild(this.sprite);
     app.stage.addChild(this.aimStick);
   }
-  animations: PIXI.Texture[];
+  animations: Dict<PIXI.Texture<PIXI.Resource>[]>;
   bounds: Bounds;
   controlls = { up: 'w', left: 'a', down: 's', right: 'd' };
   goingUp = (): boolean => window.keys.get(this.controlls.up) || false;
