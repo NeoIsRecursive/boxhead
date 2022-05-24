@@ -2,10 +2,7 @@ import * as PIXI from 'pixi.js';
 import Player from './scripts/player/Player';
 import Wall from './scripts/entities/Wall';
 import setUpKeys from './scripts/player/Controller';
-
 import Zombie from './scripts/enemies/Zombie';
-import Hitbox from './scripts/player/Hitbox';
-import Collision from './scripts/utils/Collision';
 import { RandomEvenPos } from './scripts/utils/RandomCol';
 
 setUpKeys();
@@ -51,7 +48,7 @@ const GameLoop = (dt: number) => {
 app.ticker.maxFPS = 60;
 // dt is delta time
 app.ticker.add((dt) => {
-  GameLoop(1);
+  GameLoop(dt);
 });
 
 document.getElementById('app')!.appendChild(app.view);

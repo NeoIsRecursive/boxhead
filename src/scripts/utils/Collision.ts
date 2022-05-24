@@ -1,4 +1,3 @@
-import { Graphics } from 'pixi.js';
 import Entity from '../entities/Entity';
 import Hitbox from '../player/Hitbox';
 
