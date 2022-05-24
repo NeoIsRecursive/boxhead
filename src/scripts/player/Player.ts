@@ -5,16 +5,6 @@ import Entity from '../entities/Entity';
 import Bounds from '../../types/Bounds';
 import { Vector } from 'p5js-vector-standalone';
 
-function newPlayer(id: number, app: PIXI.Application) {
-  let sheet = PIXI.Loader.shared.resources['player'].spritesheet;
-
-  return new Player(
-    id,
-    app,
-    new PIXI.AnimatedSprite(sheet!.animations['idle_left'])
-  );
-}
-
 class Player extends Entity {
   constructor(id: number, app: PIXI.Application, sprite: PIXI.AnimatedSprite) {
     super(id, sprite);
@@ -89,4 +79,3 @@ class Player extends Entity {
 }
 
 export default Player;
-export { newPlayer };
