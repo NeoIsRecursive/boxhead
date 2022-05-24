@@ -62,7 +62,7 @@ export default class Astar {
             }
           }
         }
-        this.#draw(path);
+        //this.#draw(path);
         return path[path.length - 2].vec;
       }
       openSet = openSet.filter((item) => item !== current);

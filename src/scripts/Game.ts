@@ -3,7 +3,7 @@ import Player from './player/Player';
 import Wall from './entities/Wall';
 import Zombie from './enemies/Zombie';
 import { RandomEvenPos } from './utils/RandomCol';
-import { AnimatedSprite } from 'pixi.js';
+import { Spritesheet } from 'pixi.js';
 
 export default class Game {
   constructor(
@@ -13,7 +13,6 @@ export default class Game {
   ) {
     this.#app = app;
     this.loader = loader;
-    console.log(this);
     element.appendChild(this.#app.view);
   }
   loader: PIXI.Loader;
@@ -26,7 +25,6 @@ export default class Game {
   #app;
 
   setup() {
-    console.log(this.players);
     this.players.push(
       new Player(
         1,
@@ -42,9 +40,14 @@ export default class Game {
     }
 
     for (let index = 0; index < 10; index++) {
-      this.enemies.push(new Zombie(index, this.#app, this.walls));
-      const pos = RandomEvenPos(this.#width, this.#height, this.#res);
-      this.enemies[index].position.set(pos.x, pos.y);
+      this.enemies.push(
+        new Zombie(
+          index,
+          this.#app,
+          this.walls,
+          this.loader.resources['skeleton'].spritesheet!.animations
+        )
+      );
     }
 
     this.#start();
