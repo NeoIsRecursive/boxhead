@@ -4,11 +4,12 @@ import * as PIXI from 'pixi.js';
 class Hitbox {
   hitbox = new PIXI.Graphics();
   distance: number;
-
+  id: number;
   player;
 
   constructor(id: number, app: PIXI.Application, Player: Player) {
     //this.hitbox.beginFill(0x66ccff);
+    this.id = id;
     this.hitbox.drawRect(0, 0, 32, 60);
     this.hitbox.endFill();
     this.hitbox.x = 0;
