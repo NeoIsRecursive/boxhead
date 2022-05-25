@@ -9,6 +9,10 @@ const loader = Loader.shared;
 loader.onProgress.add((e) => {
   console.log(e.progress);
 });
+const errors: string[] = [];
+loader.onError.add((e) => {
+  errors.push(e.message);
+});
 
 //Add all assets here:
 loader.add('player', './assets/player/player.json');
@@ -17,4 +21,13 @@ loader.add('skeleton', './assets/enemies/skeleton/skeleton.json');
 const element = document.getElementById('app');
 const game = new Game(loader, element!);
 
-loader.load(() => game.setup());
+loader.load(() => {
+  //just temporary maybe a nice func here later
+  if (errors.length > 0) {
+    element!.innerHTML =
+      'There was an error while loading the content, please try again :)<br>' +
+      errors.join('<br>');
+  } else {
+    game.setup();
+  }
+});
