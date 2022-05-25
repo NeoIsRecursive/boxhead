@@ -1,5 +1,5 @@
 import Entity from '../entities/Entity';
-import character from '../../../assets/character.png';
+import character from '/character.png';
 import * as PIXI from 'pixi.js';
 import { Dict } from '@pixi/utils';
 import { Vector } from 'p5js-vector-standalone';

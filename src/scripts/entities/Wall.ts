@@ -1,4 +1,4 @@
-import wall from '../../../assets/wall.png';
+import wall from '/wall.png';
 import * as PIXI from 'pixi.js';
 import Entity from './Entity';
 import { RandomEvenPos } from '../utils/RandomCol';
