@@ -2,42 +2,51 @@ import * as PIXI from 'pixi.js';
 import Player from './scripts/player/Player';
 import Wall from './scripts/entities/Wall';
 import setUpKeys from './scripts/player/Controller';
-import Hitbox from './scripts/player/Hitbox';
-import Collision from './scripts/utils/Collision';
+import Zombie from './scripts/enemies/Zombie';
+import { RandomEvenPos } from './scripts/utils/RandomCol';
 
 setUpKeys();
 
+const width = 640;
+const height = 480;
+const res = 32;
+
 let app = new PIXI.Application({
-  width: 640,
-  height: 400,
+  width,
+  height,
   backgroundColor: 0xfafafa,
 });
 
-const player = new Player(1, app);
-player.draw();
+const players = [new Player(1, app)];
+players[0].draw();
 
-const wall = new Wall(2, app);
-wall.draw();
+const enemies: Zombie[] = [];
 
-const hitbox = new Hitbox(3, app, player);
+const walls: Wall[] = [];
+for (let index = 0; index < 100; index++) {
+  walls.push(new Wall(index, app));
+}
+
+for (let index = 0; index < 10; index++) {
+  enemies.push(new Zombie(index, app, walls));
+  const pos = RandomEvenPos(width, height, res);
+  enemies[index].position.set(pos.x + 16, pos.y + 16);
+}
 
 const GameLoop = (dt: number) => {
-  [player, hitbox].forEach((entity) => {
-    if (Collision(hitbox, wall)) {
-      player.speed = 0;
-      console.log('Hit'); //Testing things out
-    } else {
-      player.speed = 4;
-    }
-    entity.update(dt);
+  const entities = [...players, ...enemies];
+
+  entities.forEach((entity) => {
+    entity.update(dt, players);
   });
-  [player].forEach((entity) => {
+
+  [...entities, ...walls].forEach((entity) => {
     entity.draw();
   });
 };
 
 app.ticker.maxFPS = 60;
-//dt is delta time
+// dt is delta time
 app.ticker.add((dt) => {
   GameLoop(dt);
 });
