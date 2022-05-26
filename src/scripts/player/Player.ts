@@ -1,18 +1,19 @@
 //import character from '../../assets/knight/texture.json';
 import * as PIXI from 'pixi.js';
-import Contain from '../utils/Contain';
 import Entity from '../entities/Entity';
 import Bounds from '../../types/Bounds';
 import { Vector } from 'p5js-vector-standalone';
 import { Dict } from '@pixi/utils';
+import Matter from 'matter-js';
 
 class Player extends Entity {
   constructor(
     id: number,
     app: PIXI.Application,
-    animations: Dict<PIXI.Texture<PIXI.Resource>[]>
+    animations: Dict<PIXI.Texture<PIXI.Resource>[]>,
+    physicsComposite: Matter.World
   ) {
-    super(id, new PIXI.AnimatedSprite(animations['idle_left']));
+    super(id, physicsComposite);
     this.bounds = {
       left: 0,
       right: app.screen.width,
@@ -26,7 +27,11 @@ class Player extends Entity {
     this.sprite.width = this.size.width;
     this.sprite.animationSpeed = 0.25;
 
-    this.position.set(app.screen.width / 2, app.screen.height / 2);
+    Matter.Body.setPosition(
+      this.body,
+      Matter.Vector.create(app.screen.width / 2, app.screen.height / 2)
+    );
+
     this.aimStick = new PIXI.Graphics();
 
     app.stage.addChild(this.sprite);
@@ -95,33 +100,13 @@ class Player extends Entity {
         this.sprite.play();
       }
     }
-
-    this.position.add(this.vel.x * speed, this.vel.y * speed);
-
-    // if (this.vel.y < 0) this.sprite.textures = this.animations['idle_left'];
-    // if (this.vel.y < 0) this.sprite.textures = this.animations['idle_left'];
-
-    const hit = Contain(this, this.bounds);
-    if (hit.top) this.position.y = this.bounds.top;
-    if (hit.bottom) this.position.y = this.bounds.bottom - this.size.height;
-    if (hit.left) this.position.x = this.bounds.left;
-    if (hit.right) this.position.x = this.bounds.right - this.size.width;
+    const force = Matter.Vector.create(this.vel.x * speed, this.vel.y * speed);
+    Matter.Body.applyForce(this.body, this.body.position, force);
   }
 
   draw() {
-    this.sprite.x = this.position.x;
-    this.sprite.y = this.position.y;
-
-    /* this.aimStick.clear();
-
-    this.aimStick.position.set(
-      this.position.x + this.size.width * 0.5,
-      this.position.y + this.size.height * 0.5
-    );
-    this.aimStick
-      .lineStyle(5, 0x000000)
-      .moveTo(0, 0)
-      .lineTo(this.lookingAt.x * 32, this.lookingAt.y * 32); */
+    this.sprite.x = this.body.position.x;
+    this.sprite.y = this.body.position.y;
   }
 
   damage(inflicted: number) {

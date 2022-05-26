@@ -2,6 +2,7 @@ import { Vector } from 'p5js-vector-standalone';
 import Spot from './Spot';
 import * as PIXI from 'pixi.js';
 import Entity from '../entities/Entity';
+import Matter from 'matter-js';
 
 export default class Astar {
   constructor(res: number, obstacles: Entity[], app: PIXI.Application) {
@@ -21,7 +22,7 @@ export default class Astar {
 
   #colFromPos = (x: number) => Math.floor(x / this.#res);
 
-  getPath(zombie: Vector, goal: Vector) {
+  getPath(zombie: Matter.Vector, goal: Matter.Vector) {
     const grid = [...this.#grid];
     let openSet: Spot[] = [];
     const closedSet: Spot[] = [];
