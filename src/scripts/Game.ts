@@ -3,6 +3,7 @@ import Player from './player/Player';
 import Wall from './entities/Wall';
 import Zombie from './enemies/Zombie';
 import Matter from 'matter-js';
+import type GameMap from '../types/GameMap';
 
 export default class Game {
   constructor(loader: PIXI.Loader, element: HTMLElement) {
@@ -14,8 +15,9 @@ export default class Game {
     this.#app.screen.width = this.#width;
     this.#app.screen.height = this.#height;
     this.loader = loader;
-    element.appendChild(this.#app.view);
+    this.#element = element;
   }
+  #element;
   loader: PIXI.Loader;
   physicsEngine = Matter.Engine.create();
   players: Player[] = [];
@@ -25,9 +27,10 @@ export default class Game {
   #height = 480;
   #app;
 
-  setup() {
+  setup(map: GameMap) {
+    this.#element.appendChild(this.#app.view);
     this.#createBounds();
-
+    this.#setupMap(map);
     this.players.push(
       new Player(
         1,
@@ -38,10 +41,6 @@ export default class Game {
     );
 
     this.players[0].draw();
-
-    for (let index = 0; index < 25; index++) {
-      this.walls.push(new Wall(index, this.#app, this.physicsEngine.world));
-    }
 
     for (let index = 0; index < 10; index++) {
       this.enemies.push(
@@ -113,5 +112,28 @@ export default class Game {
     Matter.Composite.add(this.physicsEngine.world, bottom);
     Matter.Composite.add(this.physicsEngine.world, right);
     Matter.Composite.add(this.physicsEngine.world, left);
+  }
+
+  #setupMap(gameMap: GameMap) {
+    const WALL = 'x';
+
+    const mapArr = gameMap.map.map((row) => row.split(''));
+    let count = 0;
+    mapArr.forEach((row, y) =>
+      row.forEach((col, x) => {
+        if (col === WALL)
+          this.walls.push(
+            new Wall(
+              count++,
+              this.#app,
+              this.physicsEngine.world,
+              PIXI.Sprite.from(this.loader.resources['wall'].texture!),
+              x,
+              y
+            )
+          );
+      })
+    );
+    console.log(mapArr);
   }
 }

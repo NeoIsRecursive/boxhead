@@ -1,29 +1,23 @@
-import * as PIXI from 'pixi.js';
+import { Sprite, Application } from 'pixi.js';
 import Entity from './Entity';
-import { RandomEvenPos } from '../utils/RandomCol';
 import Matter from 'matter-js';
 
 class Wall extends Entity {
   constructor(
     id: number,
-    app: PIXI.Application,
-    physicsComposite: Matter.World
+    app: Application,
+    physicsComposite: Matter.World,
+    sprite: Sprite,
+    x: number,
+    y: number
   ) {
-    super(
-      id,
-      physicsComposite,
-      PIXI.Sprite.from(PIXI.Loader.shared.resources['wall'].texture!)
-    );
+    super(id, physicsComposite, sprite);
     this.body.isStatic = true;
     this.sprite!.height = this.size.width;
     this.sprite!.width = this.size.width;
-    const pos = RandomEvenPos(
-      app.screen.width,
-      app.screen.height,
-      this.size.width
-    );
-    Matter.Body.setPosition(this.body, Matter.Vector.create(pos.x, pos.y));
+    Matter.Body.setPosition(this.body, Matter.Vector.create(x * 32, y * 32));
     app.stage.addChild(this.sprite!);
+    this.draw();
   }
 
   draw() {
