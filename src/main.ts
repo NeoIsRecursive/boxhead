@@ -1,54 +1,33 @@
-import * as PIXI from 'pixi.js';
-import Player from './scripts/player/Player';
-import Wall from './scripts/entities/Wall';
 import setUpKeys from './scripts/player/Controller';
-import Zombie from './scripts/enemies/Zombie';
-import { RandomEvenPos } from './scripts/utils/RandomCol';
+import { Loader } from 'pixi.js';
+import Game from './scripts/Game';
 
 setUpKeys();
+const loader = Loader.shared;
 
-const width = 640;
-const height = 480;
-const res = 32;
-
-let app = new PIXI.Application({
-  width,
-  height,
-  backgroundColor: 0xfafafa,
+//Here we can have a loading bar of some sort
+loader.onProgress.add((e) => {
+  console.log(e.progress);
+});
+const errors: string[] = [];
+loader.onError.add((e) => {
+  errors.push(e.message);
 });
 
-const players = [new Player(1, app)];
-players[0].draw();
+//Add all assets here:
+loader.add('player', '/player/player.json?url');
+loader.add('skeleton', '/enemies/skeleton/skeleton.json');
 
-const enemies: Zombie[] = [];
+const element = document.getElementById('app');
+const game = new Game(loader, element!);
 
-const walls: Wall[] = [];
-for (let index = 0; index < 100; index++) {
-  walls.push(new Wall(index, app));
-}
-
-for (let index = 0; index < 10; index++) {
-  enemies.push(new Zombie(index, app, walls));
-  const pos = RandomEvenPos(width, height, res);
-  enemies[index].position.set(pos.x + 16, pos.y + 16);
-}
-
-const GameLoop = (dt: number) => {
-  const entities = [...players, ...enemies];
-
-  entities.forEach((entity) => {
-    entity.update(dt, players);
-  });
-
-  [...entities, ...walls].forEach((entity) => {
-    entity.draw();
-  });
-};
-
-app.ticker.maxFPS = 60;
-// dt is delta time
-app.ticker.add((dt) => {
-  GameLoop(dt);
+loader.load(() => {
+  //just temporary maybe a nice func here later
+  if (errors.length > 0) {
+    element!.innerHTML =
+      'There was an error while loading the content, please try again :)<br>' +
+      errors.join('<br>');
+  } else {
+    game.setup();
+  }
 });
-
-document.getElementById('app')!.appendChild(app.view);
