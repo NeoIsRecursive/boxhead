@@ -23,7 +23,6 @@ export default class Game {
   walls: Wall[] = [];
   #width = 640;
   #height = 480;
-  //#res = 32;
   #app;
 
   setup() {
@@ -40,7 +39,7 @@ export default class Game {
 
     this.players[0].draw();
 
-    for (let index = 0; index < 100; index++) {
+    for (let index = 0; index < 25; index++) {
       this.walls.push(new Wall(index, this.#app, this.physicsEngine.world));
     }
 
@@ -75,7 +74,6 @@ export default class Game {
 
   #start() {
     this.#app.ticker.add((dt) => this.#Loop(dt));
-    console.log(this.physicsEngine.world);
   }
 
   #createBounds() {

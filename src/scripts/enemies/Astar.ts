@@ -14,7 +14,11 @@ export default class Astar {
     );
     this.#path = new PIXI.Graphics();
     app.stage.addChild(this.#path);
+    this.#appWidth = app.screen.width;
+    this.#appHeight = app.screen.height;
   }
+  #appWidth;
+  #appHeight;
   #path: PIXI.Graphics;
   #grid: Spot[][];
   #res: number;
@@ -26,8 +30,17 @@ export default class Astar {
     const grid = [...this.#grid];
     let openSet: Spot[] = [];
     const closedSet: Spot[] = [];
-    let start = grid[this.#colFromPos(zombie.x)][this.#colFromPos(zombie.y)];
-    let end = grid[this.#colFromPos(goal.x)][this.#colFromPos(goal.y)];
+    let start =
+      grid[this.#colFromPos(zombie.x)][this.#colFromPos(zombie.y + 16)];
+
+    let goalColx = goal.x;
+    if (goalColx < 0) goalColx = 0;
+    if (goalColx > this.#appWidth) goalColx = this.#appWidth - 1;
+    let goalColy = goal.y;
+    if (goalColy < 0) goalColy = 0;
+    if (goalColy > this.#appHeight) goalColy = this.#appHeight - 1;
+
+    let end = grid[this.#colFromPos(goalColx)][this.#colFromPos(goalColy)];
 
     if (start === end) {
       return this.#emptyVec;
@@ -58,7 +71,6 @@ export default class Astar {
           } else {
             temp = temp.previos;
             if (count++ > 30) {
-              console.log('what');
               break;
             }
           }
@@ -117,8 +129,8 @@ export default class Astar {
     }
 
     obstacles.forEach((wall) => {
-      grid[this.#colFromPos(wall.position.x)][
-        this.#colFromPos(wall.position.y)
+      grid[this.#colFromPos(wall.body.position.x)][
+        this.#colFromPos(wall.body.position.y)
       ].walkable = false;
     });
 

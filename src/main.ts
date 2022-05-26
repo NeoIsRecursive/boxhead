@@ -3,6 +3,7 @@ import { Loader } from 'pixi.js';
 import Game from './scripts/Game';
 
 setUpKeys();
+
 const loader = Loader.shared;
 
 //Here we can have a loading bar of some sort

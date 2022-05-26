@@ -1,7 +1,5 @@
-//import character from '../../assets/knight/texture.json';
 import * as PIXI from 'pixi.js';
 import Entity from '../entities/Entity';
-import Bounds from '../../types/Bounds';
 import { Vector } from 'p5js-vector-standalone';
 import { Dict } from '@pixi/utils';
 import Matter from 'matter-js';
@@ -14,12 +12,6 @@ class Player extends Entity {
     physicsComposite: Matter.World
   ) {
     super(id, physicsComposite);
-    this.bounds = {
-      left: 0,
-      right: app.screen.width,
-      top: 0,
-      bottom: app.screen.height,
-    };
     this.animations = animations;
     this.sprite = new PIXI.AnimatedSprite(this.animations['idle_left']);
     this.sprite.loop = false;
@@ -38,7 +30,6 @@ class Player extends Entity {
     app.stage.addChild(this.aimStick);
   }
   animations: Dict<PIXI.Texture<PIXI.Resource>[]>;
-  bounds: Bounds;
   controlls = { up: 'w', left: 'a', down: 's', right: 'd' };
   goingUp = (): boolean => window.keys.get(this.controlls.up) || false;
   goingDown = (): boolean => window.keys.get(this.controlls.down) || false;
