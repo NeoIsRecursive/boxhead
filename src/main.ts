@@ -20,7 +20,6 @@ loader.add('player', '/player/player.json');
 loader.add('skeleton', '/enemies/skeleton/skeleton.json');
 loader.add('wall', '/wall.png');
 
-
 const element = document.getElementById('app');
 const game = new Game(loader, element!);
 

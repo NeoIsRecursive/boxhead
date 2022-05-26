@@ -30,8 +30,7 @@ export default class Astar {
     const grid = [...this.#grid];
     let openSet: Spot[] = [];
     const closedSet: Spot[] = [];
-    let start =
-      grid[this.#colFromPos(zombie.x)][this.#colFromPos(zombie.y + 16)];
+    let start = grid[this.#colFromPos(zombie.x)][this.#colFromPos(zombie.y)];
 
     let goalColx = goal.x;
     if (goalColx < 0) goalColx = 0;
