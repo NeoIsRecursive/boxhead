@@ -30,7 +30,7 @@ export default class Game {
   setup(map: GameMap) {
     this.#element.appendChild(this.#app.view);
     this.#createBounds();
-    this.#setupMap(map);
+    this.#createMap(map);
     this.players.push(
       new Player(
         1,
@@ -42,7 +42,7 @@ export default class Game {
 
     this.players[0].draw();
 
-    for (let index = 0; index < 10; index++) {
+    for (let index = 0; index < 20; index++) {
       this.enemies.push(
         new Zombie(
           index,
@@ -114,7 +114,7 @@ export default class Game {
     Matter.Composite.add(this.physicsEngine.world, left);
   }
 
-  #setupMap(gameMap: GameMap) {
+  #createMap(gameMap: GameMap) {
     const WALL = 'x';
 
     const mapArr = gameMap.map.map((row) => row.split(''));
@@ -134,6 +134,5 @@ export default class Game {
           );
       })
     );
-    console.log(mapArr);
   }
 }
