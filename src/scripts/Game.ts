@@ -4,6 +4,7 @@ import Wall from './entities/Wall';
 import Zombie from './enemies/Zombie';
 import Matter from 'matter-js';
 import type GameMap from '../types/GameMap';
+import Barrel from './entities/Barrel';
 
 export default class Game {
   constructor(loader: PIXI.Loader, element: HTMLElement) {
@@ -116,12 +117,13 @@ export default class Game {
 
   #createMap(gameMap: GameMap) {
     const WALL = 'x';
+    const BARREL = 'b';
 
     const mapArr = gameMap.map.map((row) => row.split(''));
     let count = 0;
     mapArr.forEach((row, y) =>
       row.forEach((col, x) => {
-        if (col === WALL)
+        if (col === WALL) {
           this.walls.push(
             new Wall(
               count++,
@@ -132,6 +134,18 @@ export default class Game {
               y
             )
           );
+        } else if (col === BARREL) {
+          this.walls.push(
+            new Barrel(
+              count++,
+              this.#app,
+              this.physicsEngine.world,
+              PIXI.Sprite.from(this.loader.resources['barrel'].texture!),
+              x,
+              y
+            )
+          );
+        }
       })
     );
   }
