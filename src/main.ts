@@ -11,6 +11,7 @@ const loader = Loader.shared;
 loader.add('player', '/player/player.json');
 loader.add('skeleton', '/enemies/skeleton/skeleton.json');
 loader.add('wall', '/wall.png');
+loader.add('barrel', '/barrel.png');
 
 const element = document.getElementById('app');
 
