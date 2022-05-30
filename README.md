@@ -6,7 +6,11 @@ A remake of the flashgame Boxhead, made with pixi.js & typescript.
 
 # Installation
 
-Add the installation instructions.
+Download the repo then run these commands
+```
+npm install
+npm run dev
+```
 
 # Changelog
 
