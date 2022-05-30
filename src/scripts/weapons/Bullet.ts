@@ -4,7 +4,7 @@ import Player from '../player/Player';
 export default class Bullet {
   constructor(App: PIXI.Application) {
     this.app = App;
-    this.speed = 5;
+    this.speed = 7;
     this.direction = { left: false, right: false, up: false, down: false };
   }
   hitBox;

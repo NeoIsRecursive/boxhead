@@ -10,8 +10,10 @@ export default class Weapon {
     this.app = App;
 
     this.speed = 5;
+    this.lookingAt = this.player.lookingAt;
   }
   player;
+  lookingAt;
   bullet: Bullet;
   bullets = [];
   speed;
@@ -25,22 +27,25 @@ export default class Weapon {
       this.bullet = new Bullet(this.app);
       this.bullet.shootBullet(this.player);
 
-      if (this.player.goingLeft()) this.bullet.direction.left = true;
-      if (this.player.goingRight()) this.bullet.direction.right = true;
-      if (this.player.goingUp()) this.bullet.direction.up = true;
-      if (this.player.goingDown()) this.bullet.direction.down = true;
+      //The extra && statements are so that bullets can go in an diagonal direction.
+      if (this.player.lookingAt.x >= -1 && this.player.lookingAt.x <= 0)
+        this.bullet.direction.left = true;
+      if (this.player.lookingAt.x <= 1 && this.player.lookingAt.x >= 0)
+        this.bullet.direction.right = true;
+      if (this.player.lookingAt.y >= -1 && this.player.lookingAt.y <= 0)
+        this.bullet.direction.up = true;
+      if (this.player.lookingAt.y <= 1 && this.player.lookingAt.y >= 0)
+        this.bullet.direction.down = true;
+      console.log(this.player.lookingAt);
 
       this.bullets.push(this.bullet);
     }
-    if (this.hasFired) {
-      this.bullets.forEach((bullet: Bullet) => {
-        if (bullet.direction.left) bullet.hitBox.x -= bullet.speed;
-        if (bullet.direction.right) bullet.hitBox.x += bullet.speed;
-        if (bullet.direction.up) bullet.hitBox.y -= bullet.speed;
-        if (bullet.direction.down) bullet.hitBox.y += bullet.speed;
-      });
-    }
-  }
 
-  draw() {}
+    this.bullets.forEach((bullet: Bullet) => {
+      if (bullet.direction.left) bullet.hitBox.x -= bullet.speed;
+      if (bullet.direction.right) bullet.hitBox.x += bullet.speed;
+      if (bullet.direction.up) bullet.hitBox.y -= bullet.speed;
+      if (bullet.direction.down) bullet.hitBox.y += bullet.speed;
+    });
+  }
 }
