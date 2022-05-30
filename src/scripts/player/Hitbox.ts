@@ -1,33 +1,36 @@
 import Player from './Player';
-import * as PIXI from 'pixi.js';
+import { Vector } from 'p5js-vector-standalone';
+import Entity from '../entities/Entity';
+import Collision from '../utils/Collision';
 
 class Hitbox {
-  hitbox = new PIXI.Graphics();
-  distance: number;
-  id: number;
-  player;
-
-  constructor(id: number, app: PIXI.Application, Player: Player) {
-    //this.hitbox.beginFill(0x66ccff);
-    this.id = id;
-    this.hitbox.drawRect(0, 0, 32, 60);
-    this.hitbox.endFill();
-    this.hitbox.x = 0;
-    this.hitbox.y = 0;
-    app.stage.addChild(this.hitbox);
-
+  constructor(player: Player) {
     this.distance = 10;
-    this.player = Player;
+    this.player = player;
+    this.position.set(this.player.position.x, this.player.position.y);
   }
+  distance: number;
+  player;
+  position = new Vector(0);
 
   update() {
-    this.hitbox.x = this.player.position.x;
-    this.hitbox.y = this.player.position.y;
+    this.position.x = this.player.position.x;
+    this.position.y = this.player.position.y;
 
-    if (this.player.goingUp()) this.hitbox.y -= this.distance;
-    if (this.player.goingDown()) this.hitbox.y += this.distance;
-    if (this.player.goingLeft()) this.hitbox.x -= this.distance;
-    if (this.player.goingRight()) this.hitbox.x += this.distance;
+    if (this.player.goingUp()) this.position.y -= this.distance;
+    if (this.player.goingDown()) this.position.y += this.distance;
+    if (this.player.goingLeft()) this.position.x -= this.distance;
+    if (this.player.goingRight()) this.position.x += this.distance;
+  }
+
+  check(entities: Entity[]) {
+    for (let entity of entities) {
+      if (Collision(this.player, entity)) {
+        console.log('yeah');
+        return true;
+      }
+    }
+    return false;
   }
 }
 

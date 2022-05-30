@@ -8,11 +8,13 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/matter-js": "^0.17.7",
     "prettier": "^2.6.2",
     "typescript": "^4.5.4",
     "vite": "^2.9.5"
   },
   "dependencies": {
+    "matter-js": "^0.18.0",
     "p5js-vector-standalone": "^1.2.1",
     "pixi.js": "^6.3.0"
   }

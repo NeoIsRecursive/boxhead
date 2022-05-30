@@ -1,20 +1,21 @@
 import Entity from '../entities/Entity';
-import character from '/character.png';
 import * as PIXI from 'pixi.js';
 import { Dict } from '@pixi/utils';
 import { Vector } from 'p5js-vector-standalone';
 import Player from '../player/Player';
 import Astar from './Astar';
 import { RandomEvenPos } from '../utils/RandomCol';
+import Matter from 'matter-js';
 
 export default class Zombie extends Entity {
   constructor(
     id: number,
     app: PIXI.Application,
     obstacles: Entity[],
-    animations: Dict<PIXI.Texture<PIXI.Resource>[]>
+    animations: Dict<PIXI.Texture<PIXI.Resource>[]>,
+    physicsComposite: Matter.World
   ) {
-    super(id, PIXI.Sprite.from(character));
+    super(id, physicsComposite);
     this.animations = animations;
     this.sprite = new PIXI.AnimatedSprite(this.animations['idle_right']);
     this.sprite.loop = false;
@@ -27,7 +28,7 @@ export default class Zombie extends Entity {
     this.windowWidth = app.screen.width;
 
     const pos = RandomEvenPos(this.windowWidth, this.windowHeight, 32);
-    this.position.set(pos.x, pos.y);
+    Matter.Body.setPosition(this.body, Matter.Vector.create(pos.x, pos.y));
 
     this.lastx = this.position.x >= this.windowWidth * 0.5 ? -1 : 0;
     this.#pathFinder = new Astar(32, obstacles, app);
@@ -49,7 +50,10 @@ export default class Zombie extends Entity {
   lastx: number;
 
   update(dt: number, players: Player[]) {
-    const newVec = this.#pathFinder.getPath(this.position, players[0].position);
+    const newVec = this.#pathFinder.getPath(
+      this.body.position,
+      players[0].body.position
+    );
 
     if (newVec.y < 0) {
       if (!this.sprite.playing) {
@@ -88,11 +92,11 @@ export default class Zombie extends Entity {
     }
 
     this.vel.set(newVec.mult(dt));
-
-    this.position.add(this.vel);
+    const force = Matter.Vector.create(this.vel.x, this.vel.y);
+    Matter.Body.applyForce(this.body, this.body.position, force);
   }
 
   draw() {
-    this.sprite.position.set(this.position.x, this.position.y);
+    this.sprite.position.set(this.body.position.x, this.body.position.y);
   }
 }
