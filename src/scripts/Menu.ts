@@ -17,6 +17,7 @@ export default class Menu {
     });
 
     document.body.appendChild(this.#optionsContainer);
+    this.#optionsContainer.classList.add('main');
     this.#mapPreview.appendChild(this.#selectedElement);
     this.#optionsContainer.appendChild(this.#mapPreview);
     this.#optionsContainer.appendChild(this.#errorContainer);

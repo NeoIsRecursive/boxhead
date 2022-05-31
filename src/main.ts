@@ -14,6 +14,7 @@ loader.add('wall', '/wall.png');
 loader.add('barrel', '/barrel.png');
 
 const element = document.getElementById('app');
+element!.classList.add('main');
 
 const menu = new Menu(loader);
 

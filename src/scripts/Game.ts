@@ -9,7 +9,7 @@ import Barrel from './entities/Barrel';
 export default class Game {
   constructor(loader: PIXI.Loader, element: HTMLElement) {
     this.#app = new PIXI.Application({
-      backgroundColor: 0xfafafa,
+      backgroundColor: 0x7f8076,
       width: this.#width,
       height: this.#height,
     });

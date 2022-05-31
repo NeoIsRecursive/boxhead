@@ -14,11 +14,7 @@ export default class Astar {
     );
     this.#path = new PIXI.Graphics();
     app.stage.addChild(this.#path);
-    this.#appWidth = app.screen.width;
-    this.#appHeight = app.screen.height;
   }
-  #appWidth;
-  #appHeight;
   #path: PIXI.Graphics;
   #grid: Spot[][];
   #res: number;
@@ -91,10 +87,6 @@ export default class Astar {
             openSet.push(neighbor);
           }
 
-          /*           neighbor.h = Vector.dist(
-            new Vector(neighbor.x, neighbor.y),
-            new Vector(end.x, end.y)
-          ); */
           neighbor.h =
             Math.abs(end.x - neighbor.x) + Math.abs(end.y - neighbor.y);
           neighbor.f = neighbor.g + neighbor.h;
