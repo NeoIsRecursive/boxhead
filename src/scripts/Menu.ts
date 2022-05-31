@@ -40,7 +40,17 @@ export default class Menu {
     }
   }
 
-  #previewMap(x: GameMap) {}
+  #previewMap(x: GameMap) {
+    const previewContainer = document.createElement('div');
+    previewContainer.classList.add('preview');
+    x.map.forEach((row) => {
+      const mapLine = document.createElement('p');
+      mapLine.textContent = row;
+      previewContainer.appendChild(mapLine);
+    });
+
+    this.#mapPreview.replaceChildren(previewContainer);
+  }
 
   #getAllMapOption() {
     this.#changeMap();
@@ -64,7 +74,6 @@ export default class Menu {
     const startGame = () => {
       if (this.#selectedMap !== undefined) {
         this.#loader.load(() => {
-          //just temporary maybe a nice func here later
           if (this.#errors.length > 0) {
             this.#errors.forEach((e) => this.#addError(e));
           } else {
