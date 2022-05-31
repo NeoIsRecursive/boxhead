@@ -33,13 +33,14 @@ export default class Astar {
     let start = grid[this.#colFromPos(zombie.x)][this.#colFromPos(zombie.y)];
 
     let goalColx = goal.x;
-    if (goalColx < 0) goalColx = 0;
-    if (goalColx > this.#appWidth) goalColx = this.#appWidth - 1;
+    //if (goalColx < 0) goalColx = 0;
+    //if (goalColx > this.#appWidth) goalColx = this.#appWidth - 1;
     let goalColy = goal.y;
-    if (goalColy < 0) goalColy = 0;
-    if (goalColy > this.#appHeight) goalColy = this.#appHeight - 1;
+    //if (goalColy < 0) goalColy = 0;
+    //if (goalColy > this.#appHeight) goalColy = this.#appHeight - 1;
 
-    let end = grid[this.#colFromPos(goalColx)][this.#colFromPos(goalColy)];
+    let end =
+      grid[this.#colFromPos(goalColx + 12)][this.#colFromPos(goalColy + 12)];
 
     if (start === end) {
       return this.#emptyVec;
@@ -75,7 +76,8 @@ export default class Astar {
           }
         }
         //this.#draw(path);
-        return path[path.length - 2].vec;
+        if (path.length > 1) path.pop();
+        return path[path.length - 1].vec;
       }
       openSet = openSet.filter((item) => item !== current);
       closedSet.push(current);
@@ -100,6 +102,7 @@ export default class Astar {
         }
       });
     }
+    console.log('hwudhw');
     return this.#emptyVec;
   }
 
