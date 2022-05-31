@@ -23,6 +23,7 @@ class Player extends Entity {
     this.body.label = 'player';
     this.controlls = controlls;
 
+    this.physics = physicsComposite;
     Matter.Body.setPosition(
       this.body,
       Matter.Vector.create(app.screen.width / 2, app.screen.height / 2)
