@@ -4,7 +4,7 @@ import Player from '../player/Player';
 export default class Bullet {
   constructor(App: PIXI.Application) {
     this.app = App;
-    this.speed = 7;
+    this.speed = 20;
     this.direction = { left: false, right: false, up: false, down: false };
   }
   hitBox;
@@ -18,8 +18,8 @@ export default class Bullet {
     this.hitBox.beginFill(0xff0000);
     this.hitBox.x = 0;
     this.hitBox.drawRect(
-      Player.position.x + Player.sprite.width / 2,
-      Player.position.y + Player.sprite.height / 2,
+      Player.body.position.x + Player.sprite.width / 2,
+      Player.body.position.y + Player.sprite.height / 2,
       5,
       5
     );

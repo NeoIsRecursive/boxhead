@@ -23,7 +23,7 @@ export default class Weapon {
   fire(dt) {
     if (this.player.firing()) {
       this.hasFired = true;
-      console.log('boom');
+
       this.bullet = new Bullet(this.app);
       this.bullet.shootBullet(this.player);
 
@@ -36,7 +36,6 @@ export default class Weapon {
         this.bullet.direction.up = true;
       if (this.player.lookingAt.y <= 1 && this.player.lookingAt.y >= 0)
         this.bullet.direction.down = true;
-      console.log(this.player.lookingAt);
 
       this.bullets.push(this.bullet);
     }
