@@ -22,6 +22,7 @@ export default class Zombie extends Entity {
     this.sprite.animationSpeed = 0.2;
     this.sprite.height = this.size.height;
     this.sprite.width = this.size.width;
+    this.body.label = 'zombie';
 
     app.stage.addChild(this.sprite!);
     this.windowHeight = app.screen.height;
@@ -48,8 +49,17 @@ export default class Zombie extends Entity {
   nextPos = new Vector(0);
   count = 0;
   lastx: number;
+  dead = false;
 
   update(dt: number, players: Player[]) {
+    /* 
+    closestPlayer = () => {
+      players.forEach(player => )
+    } */
+
+    if (this.dead) {
+      return;
+    }
     const newVec = this.#pathFinder.getPath(
       this.body.position,
       players[0].body.position
@@ -94,6 +104,16 @@ export default class Zombie extends Entity {
     this.vel.set(newVec.mult(dt));
     const force = Matter.Vector.create(this.vel.x, this.vel.y);
     Matter.Body.applyForce(this.body, this.body.position, force);
+  }
+
+  die() {
+    this.dead = true;
+    this.sprite.textures = this.animations['die_left'];
+    this.sprite.play();
+    this.sprite.onComplete = () => {
+      //ta bort zombien
+      console.log('död');
+    };
   }
 
   draw() {

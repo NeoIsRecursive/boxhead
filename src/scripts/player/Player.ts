@@ -18,6 +18,7 @@ class Player extends Entity {
     this.sprite.height = this.size.height;
     this.sprite.width = this.size.width;
     this.sprite.animationSpeed = 0.25;
+    this.body.label = 'player';
 
     Matter.Body.setPosition(
       this.body,
