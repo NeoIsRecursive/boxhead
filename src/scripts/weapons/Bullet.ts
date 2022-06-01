@@ -19,7 +19,7 @@ export default class Bullet extends Entity {
     this.sprite!.width = 15;
     this.sprite!.height = 15;
     this.lifetime = 26;
-    this.damage = 1;
+    this.damage = 10;
 
     this.app = App;
     this.app.stage.addChild(this.sprite!);

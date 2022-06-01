@@ -128,9 +128,12 @@ export default class Zombie extends Entity {
     Matter.Body.applyForce(this.body, this.body.position, force);
 
     if (this.hitpoints <= 0) {
-      this.sprite.textures =
-        this.animations['die_' + (this.lastx < 0 ? 'left' : 'right')];
-      this.sprite.play();
+      // this.sprite.textures =
+      //   this.animations['die_' + (this.lastx < 0 ? 'left' : 'right')];
+      // this.sprite.play();
+
+      console.log('oof');
+
       Matter.World.remove(this.physicsComposite, this.body);
       this.app.stage.removeChild(this.sprite!);
     }
