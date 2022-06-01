@@ -24,6 +24,8 @@ export default class Zombie extends Entity {
     this.sprite.width = this.size.width;
     this.body.label = 'zombie';
 
+    this.health = 100;
+
     app.stage.addChild(this.sprite!);
     this.windowHeight = app.screen.height;
     this.windowWidth = app.screen.width;

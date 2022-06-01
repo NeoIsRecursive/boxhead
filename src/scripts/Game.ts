@@ -89,8 +89,15 @@ export default class Game {
 
     this.bullets = this.weapons[0].fire(dt);
 
-    Matter.Events.on(this.physicsEngine, 'collisionStart', () => {
-      this.bullets;
+    this.bullets.forEach((bullet) => {
+      if (
+        (Matter as any).Collision.collides(bullet.body, this.enemies[0].body)
+      ) {
+        // console.log('hit');
+        this.enemies[0].health -= 10;
+        console.log(this.enemies[0].health);
+        // Matter.World.remove((Matter as any).World, bullet.body);
+      }
     });
 
     [...entities, ...this.walls].forEach((entity) => {
