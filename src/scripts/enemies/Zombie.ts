@@ -126,17 +126,17 @@ export default class Zombie extends Entity {
     this.vel.set(newVec.mult(dt));
     const force = Matter.Vector.create(this.vel.x, this.vel.y);
     Matter.Body.applyForce(this.body, this.body.position, force);
+  }
 
-    if (this.hitpoints <= 0) {
-      // this.sprite.textures =
-      //   this.animations['die_' + (this.lastx < 0 ? 'left' : 'right')];
-      // this.sprite.play();
+  die() {
+    // this.sprite.textures =
+    //   this.animations['die_' + (this.lastx < 0 ? 'left' : 'right')];
+    // this.sprite.play();
 
-      console.log('oof');
+    console.log('oof');
 
-      Matter.World.remove(this.physicsComposite, this.body);
-      this.app.stage.removeChild(this.sprite!);
-    }
+    Matter.World.remove(this.physicsComposite, this.body);
+    this.app.stage.removeChild(this.sprite!);
   }
 
   die() {

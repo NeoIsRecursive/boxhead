@@ -89,25 +89,33 @@ export default class Game {
 
     this.bullets = this.weapons[0].fire(dt);
 
-    this.bullets.forEach((bullet) => {
-      bullet.lifetime -= 1;
+    for (let j = 0; j < this.bullets.length; j++) {
+      for (let i = 0; i < this.enemies.length; i++) {
+        if (
+          (Matter as any).Collision.collides(
+            this.bullets[j].body,
+            this.enemies[i].body
+          )
+        ) {
+          this.enemies[i].hitpoints -= this.bullets[j].damage;
+          this.bullets[j].lifetime = 0;
 
-      this.enemies.forEach((enemy) => {
-        if ((Matter as any).Collision.collides(bullet.body, enemy.body)) {
-          enemy.hitpoints -= bullet.damage;
-          console.log(enemy.hitpoints);
-
-          Matter.World.remove(this.physicsEngine.world, bullet.body);
-          this.#app.stage.removeChild(bullet.sprite!);
+          //We should probably use a linked list instead of an array when suddenly pulling stuff out but uwww maybe some other day!
+          if (this.enemies[i].hitpoints <= 0) {
+            this.enemies[i].die();
+            this.enemies.splice(i, 1);
+          }
         }
-      });
-
-      if (bullet.lifetime <= 0) {
-        bullet.damage = 0;
-        Matter.World.remove(this.physicsEngine.world, bullet.body);
-        this.#app.stage.removeChild(bullet.sprite!);
       }
-    });
+
+      this.bullets[j].lifetime -= 1;
+      if (this.bullets[j].lifetime <= 0) {
+        this.bullets[j].damage = 0;
+        Matter.World.remove(this.physicsEngine.world, this.bullets[j].body);
+        this.#app.stage.removeChild(this.bullets[j].sprite!);
+        this.bullets.splice(j, 1);
+      }
+    }
 
     [...entities, ...this.walls].forEach((entity) => {
       entity.draw();
