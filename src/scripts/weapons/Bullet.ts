@@ -28,7 +28,7 @@ export default class Bullet extends Entity {
 
     Matter.Body.setPosition(
       this.body,
-      Matter.Vector.create(from.x + 16 * to.x, from.y + 16 * to.y)
+      Matter.Vector.create(from.x + 30 * to.x, from.y + 30 * to.y)
     );
     this.body.circleRadius = 0.1;
     this.body.frictionAir = 0.2;

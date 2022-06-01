@@ -7,24 +7,14 @@ import Matter from 'matter-js';
 import Weapon from './Weapon';
 import Zombie from '../enemies/Zombie';
 
-export default class FlameThrower extends Weapon {
+export default class Flamethrower extends Weapon {
   constructor(
     App: PIXI.Application,
     Player: Player,
     PhysicsEngine: Matter.Engine
   ) {
     super(App, Player, PhysicsEngine);
-    this.player = Player;
-    this.app = App;
-
-    this.speed = 5;
   }
-  player;
-  bullet: Bullet;
-  bullets: Bullet[] = [];
-  speed;
-  hasFired;
-  app;
 
   fire(enemies: Zombie[]) {
     if (this.player.firing()) {

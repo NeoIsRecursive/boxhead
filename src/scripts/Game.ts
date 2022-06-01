@@ -5,7 +5,6 @@ import Zombie from './enemies/Zombie';
 import Matter from 'matter-js';
 import type GameMap from '../types/GameMap';
 import Barrel from './entities/Barrel';
-import Weapon from './weapons/Weapon';
 import Bullet from './weapons/Bullet';
 import FlameThrower from './weapons/FlameThrower';
 
@@ -93,7 +92,7 @@ export default class Game {
 
     this.weapons[0].fire(this.enemies);
 
-    [...entities, ...this.walls].forEach((entity) => {
+    [...entities, ...this.walls, ...this.weapons].forEach((entity) => {
       entity.draw();
     });
 
