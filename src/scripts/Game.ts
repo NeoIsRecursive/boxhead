@@ -96,8 +96,8 @@ export default class Game {
         (Matter as any).Collision.collides(bullet.body, this.enemies[0].body)
       ) {
         // console.log('hit');
-        this.enemies[0].health -= 10;
-        console.log(this.enemies[0].health);
+        this.enemies[0].hitpoints -= bullet.damage;
+        console.log(this.enemies[0].hitpoints);
         Matter.World.remove(this.physicsEngine.world, bullet.body);
         this.#app.stage.removeChild(bullet.sprite!);
       }
