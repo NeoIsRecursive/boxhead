@@ -21,20 +21,7 @@ export default class Weapon {
 
   fire(dt) {
     if (this.player.firing()) {
-      this.hasFired = true;
       console.log('pew');
-      // this.bullet.shootBullet(this.player);
-
-      //The extra && statements are so that bullets can go in an diagonal direction.
-      // if (this.player.lookingAt.x >= -1 && this.player.lookingAt.x <= 0)
-      //   this.bullet.direction.left = true;
-      // if (this.player.lookingAt.x <= 1 && this.player.lookingAt.x >= 0)
-      //   this.bullet.direction.right = true;
-      // if (this.player.lookingAt.y >= -1 && this.player.lookingAt.y <= 0)
-      //   this.bullet.direction.up = true;
-      // if (this.player.lookingAt.y <= 1 && this.player.lookingAt.y >= 0)
-      //   this.bullet.direction.down = true;
-
       this.bullets.push(
         new Bullet(
           this.app,
@@ -48,5 +35,7 @@ export default class Weapon {
     this.bullets.forEach((bullet: Bullet) => {
       bullet.draw();
     });
+
+    return this.bullets;
   }
 }
