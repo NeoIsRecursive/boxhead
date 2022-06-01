@@ -7,6 +7,7 @@ import type GameMap from '../types/GameMap';
 import Barrel from './entities/Barrel';
 import Weapon from './weapons/Weapon';
 import Bullet from './weapons/Bullet';
+import FlameThrower from './weapons/FlameThrower';
 
 export default class Game {
   constructor(loader: PIXI.Loader, element: HTMLElement) {
@@ -24,7 +25,7 @@ export default class Game {
   loader: PIXI.Loader;
   physicsEngine = Matter.Engine.create();
   players: Player[] = [];
-  weapons: Weapon[] = [];
+  weapons = [];
   bullets: Bullet[] = [];
   enemies: Zombie[] = [];
   walls: Wall[] = [];
@@ -61,7 +62,9 @@ export default class Game {
       )
     );
 
-    this.weapons.push(new Weapon(this.#app, this.players[0]));
+    this.weapons.push(
+      new FlameThrower(this.#app, this.players[0], this.physicsEngine)
+    );
 
     for (let index = 0; index < 10; index++) {
       this.enemies.push(
@@ -87,35 +90,7 @@ export default class Game {
       entity.update(dt, alivePlayers);
     }
 
-    this.bullets = this.weapons[0].fire(dt);
-
-    for (let j = 0; j < this.bullets.length; j++) {
-      for (let i = 0; i < this.enemies.length; i++) {
-        if (
-          (Matter as any).Collision.collides(
-            this.bullets[j].body,
-            this.enemies[i].body
-          )
-        ) {
-          this.enemies[i].hitpoints -= this.bullets[j].damage;
-          this.bullets[j].lifetime = 0;
-
-          //We should probably use a linked list instead of an array when suddenly pulling stuff out but uwww maybe some other day!
-          if (this.enemies[i].hitpoints <= 0) {
-            this.enemies[i].die();
-            this.enemies.splice(i, 1);
-          }
-        }
-      }
-
-      this.bullets[j].lifetime -= 1;
-      if (this.bullets[j].lifetime <= 0) {
-        this.bullets[j].damage = 0;
-        Matter.World.remove(this.physicsEngine.world, this.bullets[j].body);
-        this.#app.stage.removeChild(this.bullets[j].sprite!);
-        this.bullets.splice(j, 1);
-      }
-    }
+    this.weapons[0].fire(this.enemies);
 
     [...entities, ...this.walls].forEach((entity) => {
       entity.draw();

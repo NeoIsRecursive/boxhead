@@ -6,36 +6,22 @@ import Bullet from './Bullet';
 import Matter from 'matter-js';
 
 export default class Weapon {
-  constructor(App: PIXI.Application, Player: Player) {
-    this.player = Player;
+  constructor(
+    App: PIXI.Application,
+    Player: Player,
+    PhysicsEngine: Matter.Engine
+  ) {
     this.app = App;
+    this.player = Player;
+    this.physicsEngine = PhysicsEngine;
 
     this.speed = 5;
   }
+  app;
   player;
+  physicsEngine: Matter.Engine;
   bullet: Bullet;
   bullets: Bullet[] = [];
   speed;
   hasFired;
-  app;
-
-  fire(dt) {
-    if (this.player.firing()) {
-      console.log('pew');
-      this.bullets.push(
-        new Bullet(
-          this.app,
-          this.player.physics,
-          this.player.body.position,
-          this.player.lookingAt
-        )
-      );
-    }
-
-    this.bullets.forEach((bullet: Bullet) => {
-      bullet.draw();
-    });
-
-    return this.bullets;
-  }
 }
