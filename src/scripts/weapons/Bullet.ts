@@ -18,10 +18,11 @@ export default class Bullet extends Entity {
     );
     this.sprite!.width = 15;
     this.sprite!.height = 15;
+    this.lifetime = 26;
 
     this.app = App;
     this.app.stage.addChild(this.sprite!);
-    this.speed = 20;
+    this.speed = 15;
     this.direction = { left: false, right: false, up: false, down: false };
 
     Matter.Body.setPosition(
@@ -29,7 +30,7 @@ export default class Bullet extends Entity {
       Matter.Vector.create(from.x + 16 * to.x, from.y + 16 * to.y)
     );
     this.body.circleRadius = 0.1;
-    this.body.frictionAir = 0.1;
+    this.body.frictionAir = 0.2;
     const force = Matter.Vector.create(to.x * this.speed, to.y * this.speed);
     Matter.Body.applyForce(this.body, this.body.position, force);
   }
@@ -37,6 +38,7 @@ export default class Bullet extends Entity {
   app;
   speed;
   direction;
+  lifetime;
 
   draw() {
     this.sprite!.position.set(this.body.position.x, this.body.position.y);

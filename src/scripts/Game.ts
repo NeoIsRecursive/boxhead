@@ -90,13 +90,20 @@ export default class Game {
     this.bullets = this.weapons[0].fire(dt);
 
     this.bullets.forEach((bullet) => {
+      bullet.lifetime -= 1;
+
       if (
         (Matter as any).Collision.collides(bullet.body, this.enemies[0].body)
       ) {
         // console.log('hit');
         this.enemies[0].health -= 10;
         console.log(this.enemies[0].health);
-        // Matter.World.remove((Matter as any).World, bullet.body);
+        Matter.World.remove(this.physicsEngine.world, bullet.body);
+        this.#app.stage.removeChild(bullet.sprite!);
+      }
+      if (bullet.lifetime <= 0) {
+        Matter.World.remove(this.physicsEngine.world, bullet.body);
+        this.#app.stage.removeChild(bullet.sprite!);
       }
     });
 
