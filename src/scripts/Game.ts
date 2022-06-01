@@ -27,6 +27,7 @@ export default class Game {
   #width = 640;
   #height = 480;
   #app;
+  gameOver = false;
 
   setup(map: GameMap) {
     this.#element.appendChild(this.#app.view);
@@ -37,13 +38,28 @@ export default class Game {
         1,
         this.#app,
         this.loader.resources['player'].spritesheet!.animations,
-        this.physicsEngine.world
+        this.physicsEngine.world,
+        { up: 'w', down: 's', left: 'a', right: 'd' }
+      )
+    );
+    this.players.push(
+      new Player(
+        2,
+        this.#app,
+        this.loader.resources['player'].spritesheet!.animations,
+        this.physicsEngine.world,
+        {
+          up: 'ArrowUp',
+          down: 'ArrowDown',
+          left: 'ArrowLeft',
+          right: 'ArrowRight',
+        }
       )
     );
 
     this.players[0].draw();
 
-    for (let index = 0; index < 20; index++) {
+    for (let index = 0; index < 10; index++) {
       this.enemies.push(
         new Zombie(
           index,
@@ -60,9 +76,11 @@ export default class Game {
 
   #Loop(dt: number) {
     const entities = [...this.players, ...this.enemies];
+    const alivePlayers = this.players.filter((x) => !x.dead);
+    if (window.keys.get('e')) this.players[0].damage(1);
 
     for (const entity of entities) {
-      entity.update(dt, this.players);
+      entity.update(dt, alivePlayers);
     }
 
     [...entities, ...this.walls].forEach((entity) => {
@@ -70,6 +88,17 @@ export default class Game {
     });
 
     Matter.Engine.update(this.physicsEngine, dt);
+
+    if (alivePlayers.length < 1) {
+      this.#endGame();
+    }
+  }
+
+  #endGame() {
+    setTimeout(() => {
+      this.#app.ticker.stop();
+      this.gameOver = true;
+    }, 3000);
   }
 
   #start() {

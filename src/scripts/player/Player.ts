@@ -3,13 +3,15 @@ import Entity from '../entities/Entity';
 import { Vector } from 'p5js-vector-standalone';
 import { Dict } from '@pixi/utils';
 import Matter from 'matter-js';
+import type Controlls from '../../types/Controlls';
 
 class Player extends Entity {
   constructor(
     id: number,
     app: PIXI.Application,
     animations: Dict<PIXI.Texture<PIXI.Resource>[]>,
-    physicsComposite: Matter.World
+    physicsComposite: Matter.World,
+    controlls: Controlls
   ) {
     super(id, physicsComposite);
     this.animations = animations;
@@ -19,19 +21,23 @@ class Player extends Entity {
     this.sprite.width = this.size.width;
     this.sprite.animationSpeed = 0.25;
     this.body.label = 'player';
+    this.controlls = controlls;
 
     Matter.Body.setPosition(
       this.body,
       Matter.Vector.create(app.screen.width / 2, app.screen.height / 2)
     );
 
-    this.aimStick = new PIXI.Graphics();
+    this.healthBar = PIXI.Sprite.from(PIXI.Texture.WHITE);
+    this.healthBar.width = 32;
+    this.healthBar.height = 4;
+    this.healthBar.tint = 0xff0000;
 
     app.stage.addChild(this.sprite);
-    app.stage.addChild(this.aimStick);
+    app.stage.addChild(this.healthBar);
   }
   animations: Dict<PIXI.Texture<PIXI.Resource>[]>;
-  controlls = { up: 'w', left: 'a', down: 's', right: 'd' };
+  controlls;
   goingUp = (): boolean => window.keys.get(this.controlls.up) || false;
   goingDown = (): boolean => window.keys.get(this.controlls.down) || false;
   goingLeft = (): boolean => window.keys.get(this.controlls.left) || false;
@@ -40,12 +46,16 @@ class Player extends Entity {
   lookingAt = new Vector(0, 0);
   speed = 4;
   sprite: PIXI.AnimatedSprite;
-  aimStick: PIXI.Graphics;
-  hitpoints = 100;
+  healthBar: PIXI.Sprite;
+  MaxHP = 100;
+  hitpoints = this.MaxHP;
+  dead = false;
 
   lastx = -1;
 
   update(dt: number) {
+    if (this.dead) return;
+
     const vel = { x: 0, y: 0 };
     const speed = this.speed * dt;
 
@@ -99,13 +109,27 @@ class Player extends Entity {
   draw() {
     this.sprite.x = this.body.position.x;
     this.sprite.y = this.body.position.y;
+
+    this.healthBar.position.set(this.body.position.x, this.body.position.y - 8);
   }
 
   damage(inflicted: number) {
+    if (this.hitpoints <= 0) return;
     this.hitpoints -= inflicted;
+    this.sprite.textures =
+      this.animations['damage_' + (this.lastx < 0 ? 'left' : 'right')];
+    this.sprite.play();
+    this.healthBar.width = 32 * (this.hitpoints / this.MaxHP);
     if (this.hitpoints <= 0) {
-      console.log('dead');
+      this.die();
     }
+  }
+
+  die() {
+    this.dead = true;
+    this.sprite.textures =
+      this.animations['die_' + (this.lastx < 0 ? 'left' : 'right')];
+    this.sprite.play();
   }
 }
 

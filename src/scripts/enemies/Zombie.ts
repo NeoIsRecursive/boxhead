@@ -1,7 +1,7 @@
 import Entity from '../entities/Entity';
 import * as PIXI from 'pixi.js';
 import { Dict } from '@pixi/utils';
-import { Vector } from 'p5js-vector-standalone';
+import { createVector, Vector } from 'p5js-vector-standalone';
 import Player from '../player/Player';
 import Astar from './Astar';
 import { RandomEvenPos } from '../utils/RandomCol';
@@ -50,19 +50,34 @@ export default class Zombie extends Entity {
   count = 0;
   lastx: number;
   dead = false;
+  attacking = false;
 
   update(dt: number, players: Player[]) {
-    /* 
-    closestPlayer = () => {
-      players.forEach(player => )
-    } */
-
-    if (this.dead) {
+    if (this.dead || players.length < 1) {
+      if (!this.sprite.playing) {
+        this.sprite.textures =
+          this.animations['idle_' + (this.lastx < 0 ? 'left' : 'right')];
+        this.sprite.play();
+      }
       return;
     }
+    const sorted = [...players].sort((a, b) => {
+      return (
+        createVector(a.body.position.x, a.body.position.y).magSq() -
+        createVector(b.body.position.x, b.body.position.y).magSq()
+      );
+    });
+
+    if ((Matter as any).Collision.collides(sorted[0].body, this.body)) {
+      this.attacking = true;
+      this.attack(sorted[0]);
+    } else {
+      this.attacking = false;
+    }
+
     const newVec = this.#pathFinder.getPath(
       this.body.position,
-      players[0].body.position
+      sorted[0].body.position
     );
 
     if (newVec.y < 0) {
@@ -114,6 +129,20 @@ export default class Zombie extends Entity {
       //ta bort zombien
       console.log('död');
     };
+  }
+
+  attack(player: Player) {
+    if (!this.sprite.playing) {
+      this.sprite.textures =
+        this.animations['damage_' + (this.lastx < 0 ? 'left' : 'right')];
+      this.sprite.play();
+      this.sprite.onComplete = () => {
+        if (this.attacking) {
+          player.damage(this.damage);
+          this.attacking = false;
+        }
+      };
+    }
   }
 
   draw() {
