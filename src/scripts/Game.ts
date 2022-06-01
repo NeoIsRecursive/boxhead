@@ -44,7 +44,7 @@ export default class Game {
         this.#app,
         this.loader.resources['player'].spritesheet!.animations,
         this.physicsEngine.world,
-        { up: 'w', down: 's', left: 'a', right: 'd' }
+        { up: 'w', down: 's', left: 'a', right: 'd', fire: 't' }
       )
     );
     this.players.push(
@@ -58,6 +58,7 @@ export default class Game {
           down: 'ArrowDown',
           left: 'ArrowLeft',
           right: 'ArrowRight',
+          fire: 'l',
         }
       )
     );
