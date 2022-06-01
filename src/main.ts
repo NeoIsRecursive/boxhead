@@ -14,6 +14,7 @@ loader.add('player', '/player/player.json');
 loader.add('skeleton', '/enemies/skeleton/skeleton.json');
 loader.add('wall', '/wall.png');
 loader.add('barrel', '/barrel.png');
+loader.add('flame', '/flame.png');
 
 const element = document.getElementById('app');
 element!.classList.add('main');
