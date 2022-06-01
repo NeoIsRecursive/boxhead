@@ -56,56 +56,56 @@
       "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 24 },
       "sourceSize": { "w": 24, "h": 24 }
     },
-    "dying_left/44.png": {
+    "die_left/44.png": {
       "frame": { "x": 192, "y": 0, "w": 24, "h": 24 },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 24 },
       "sourceSize": { "w": 24, "h": 24 }
     },
-    "dying_left/45.png": {
+    "die_left/45.png": {
       "frame": { "x": 216, "y": 0, "w": 24, "h": 24 },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 24 },
       "sourceSize": { "w": 24, "h": 24 }
     },
-    "dying_left/46.png": {
+    "die_left/46.png": {
       "frame": { "x": 240, "y": 0, "w": 24, "h": 24 },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 24 },
       "sourceSize": { "w": 24, "h": 24 }
     },
-    "dying_left/47.png": {
+    "die_left/47.png": {
       "frame": { "x": 264, "y": 0, "w": 24, "h": 24 },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 24 },
       "sourceSize": { "w": 24, "h": 24 }
     },
-    "dying_right/40.png": {
+    "die_right/40.png": {
       "frame": { "x": 288, "y": 0, "w": 24, "h": 24 },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 24 },
       "sourceSize": { "w": 24, "h": 24 }
     },
-    "dying_right/41.png": {
+    "die_right/41.png": {
       "frame": { "x": 312, "y": 0, "w": 24, "h": 24 },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 24 },
       "sourceSize": { "w": 24, "h": 24 }
     },
-    "dying_right/42.png": {
+    "die_right/42.png": {
       "frame": { "x": 336, "y": 0, "w": 24, "h": 24 },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 24 },
       "sourceSize": { "w": 24, "h": 24 }
     },
-    "dying_right/43.png": {
+    "die_right/43.png": {
       "frame": { "x": 360, "y": 0, "w": 24, "h": 24 },
       "rotated": false,
       "trimmed": false,
@@ -294,17 +294,17 @@
       "damage_right/34.png",
       "damage_right/35.png"
     ],
-    "dying_left": [
-      "dying_left/44.png",
-      "dying_left/45.png",
-      "dying_left/46.png",
-      "dying_left/47.png"
+    "die_left": [
+      "die_left/44.png",
+      "die_left/45.png",
+      "die_left/46.png",
+      "die_left/47.png"
     ],
-    "dying_right": [
-      "dying_right/40.png",
-      "dying_right/41.png",
-      "dying_right/42.png",
-      "dying_right/43.png"
+    "die_right": [
+      "die_right/40.png",
+      "die_right/41.png",
+      "die_right/42.png",
+      "die_right/43.png"
     ],
     "idle_left": [
       "idle_left/04.png",
