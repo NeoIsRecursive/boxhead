@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import Player from '../player/Player';
 import Matter from 'matter-js';
 import Entity from '../entities/Entity';
 import { Vector } from 'p5js-vector-standalone';
@@ -35,7 +34,6 @@ export default class Bullet extends Entity {
     const force = Matter.Vector.create(to.x * this.speed, to.y * this.speed);
     Matter.Body.applyForce(this.body, this.body.position, force);
   }
-  hitBox;
   app;
   speed;
   direction;

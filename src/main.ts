@@ -2,8 +2,6 @@ import setUpKeys from './scripts/player/Controller';
 import { Loader } from 'pixi.js';
 import Game from './scripts/Game';
 import Menu from './scripts/Menu';
-import Zombie from './scripts/enemies/Zombie';
-import Weapon from './scripts/weapons/Weapon';
 
 setUpKeys();
 

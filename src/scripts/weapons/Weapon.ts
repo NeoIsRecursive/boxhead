@@ -1,7 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { Vector } from 'p5js-vector-standalone';
 import Player from '../player/Player';
-import { Graphics, TilingSprite } from 'pixi.js';
 import Bullet from './Bullet';
 import Matter from 'matter-js';
 
@@ -30,11 +28,8 @@ export default class Weapon {
   physicsEngine: Matter.Engine;
 
   sprite: PIXI.Sprite;
-  mirroredSprite;
-  bullet: Bullet;
   bullets: Bullet[] = [];
   speed;
-  hasFired;
 
   draw() {
     this.sprite.x = this.player.sprite.position.x + 30;
@@ -54,7 +49,3 @@ export default class Weapon {
     }
   }
 }
-
-// this.mirroredSprite = this.sprite.scale.y *= -1;
-// this.sprite.anchor.y = 1; /* 0 = top, 0.5 = center, 1 = bottom */
-// this.mirroredSprite; /* flip vertically */

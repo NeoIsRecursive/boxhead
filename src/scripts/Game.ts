@@ -24,7 +24,8 @@ export default class Game {
   loader: PIXI.Loader;
   physicsEngine = Matter.Engine.create();
   players: Player[] = [];
-  weapons = [];
+  playerOneWeapons: any = [];
+  playerTwoWeapons: any = [];
   bullets: Bullet[] = [];
   enemies: Zombie[] = [];
   walls: Wall[] = [];
@@ -62,8 +63,11 @@ export default class Game {
       )
     );
 
-    this.weapons.push(
+    this.playerOneWeapons.push(
       new FlameThrower(this.#app, this.players[0], this.physicsEngine)
+    );
+    this.playerTwoWeapons.push(
+      new FlameThrower(this.#app, this.players[1], this.physicsEngine)
     );
 
     for (let index = 0; index < 10; index++) {
@@ -90,9 +94,15 @@ export default class Game {
       entity.update(dt, alivePlayers);
     }
 
-    this.weapons[0].fire(this.enemies);
+    this.playerOneWeapons[0].fire(this.enemies);
+    this.playerTwoWeapons[0].fire(this.enemies);
 
-    [...entities, ...this.walls, ...this.weapons].forEach((entity) => {
+    [
+      ...entities,
+      ...this.walls,
+      this.playerOneWeapons[0],
+      this.playerTwoWeapons[0],
+    ].forEach((entity) => {
       entity.draw();
     });
 
