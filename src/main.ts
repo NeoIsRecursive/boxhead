@@ -1,35 +1,23 @@
 import setUpKeys from './scripts/player/Controller';
 import { Loader } from 'pixi.js';
 import Game from './scripts/Game';
+import Menu from './scripts/Menu';
 
 setUpKeys();
 
 const loader = Loader.shared;
 
-//Here we can have a loading bar of some sort
-loader.onProgress.add((e) => {
-  console.log(e.progress);
-});
-const errors: string[] = [];
-loader.onError.add((e) => {
-  errors.push(e.message);
-});
-
 //Add all assets here:
 loader.add('player', '/player/player.json');
 loader.add('skeleton', '/enemies/skeleton/skeleton.json');
 loader.add('wall', '/wall.png');
+loader.add('barrel', '/barrel.png');
 
 const element = document.getElementById('app');
+element!.classList.add('main');
+
+const menu = new Menu(loader);
+
 const game = new Game(loader, element!);
 
-loader.load(() => {
-  //just temporary maybe a nice func here later
-  if (errors.length > 0) {
-    element!.innerHTML =
-      'There was an error while loading the content, please try again :)<br>' +
-      errors.join('<br>');
-  } else {
-    game.setup();
-  }
-});
+menu.start(game);
