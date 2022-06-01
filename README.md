@@ -14,7 +14,17 @@ Add the installation instructions.
 
 # Code Review
 
-1. `example.js:10-15` - Remember to think about X and this could be refactored using the amazing Y function.
+1. `README.md` - Add information what the game is about.
+2. `README.md` - Add instructions on how to play it and which keys to use.
+3. `Bump.js` - Unused code, nice with a lot of describing comments though!
+4. `Zombies.ts:2` - \* from Pixi. Perhaps better to import what you are using.
+5. `Spots.ts:16` - Neighbors is misspelled, should be neighbours.
+6. `Spots.ts:11-13` - Variables f, g, h is maybe not named in the best possible way.
+7. `Player.ts 51-81` - Repetitive code, perhaps the content of the if-statements could be made to a function.
+8. `Enemies/Skeleton` - Perhaps better named Zombie as in the other files.
+9. `Game.ts:61` - A variable called "dt", perhaps it could have a more descriptive name.
+10. `LICENSE` - Dont't forget to add a license to your project!
+11. `BOXHEAD` - Nice work with this game, very fun to play!
 
 # Testers
 
