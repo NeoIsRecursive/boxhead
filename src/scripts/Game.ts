@@ -7,6 +7,7 @@ import type GameMap from '../types/GameMap';
 import Barrel from './entities/Barrel';
 import Bullet from './weapons/Bullet';
 import FlameThrower from './weapons/FlameThrower';
+import Rounds from './utils/Rounds';
 
 export default class Game {
   constructor(loader: PIXI.Loader, element: HTMLElement) {
@@ -32,6 +33,7 @@ export default class Game {
   #width = 640;
   #height = 480;
   #app;
+  rounds?: Rounds;
   gameOver = false;
 
   setup(map: GameMap) {
@@ -47,6 +49,7 @@ export default class Game {
         { up: 'w', down: 's', left: 'a', right: 'd', fire: 't' }
       )
     );
+
     this.players.push(
       new Player(
         2,
@@ -68,6 +71,13 @@ export default class Game {
     );
     this.playerTwoWeapons.push(
       new FlameThrower(this.#app, this.players[1], this.physicsEngine)
+    );
+
+    this.rounds = new Rounds(
+      this.#app,
+      this.walls,
+      this.loader.resources['skeleton'].spritesheet!.animations,
+      this.physicsEngine.world
     );
 
     for (let index = 0; index < 10; index++) {
@@ -96,6 +106,8 @@ export default class Game {
 
     this.playerOneWeapons[0].fire(this.enemies);
     this.playerTwoWeapons[0].fire(this.enemies);
+
+    this.rounds?.Rounds(this.enemies);
 
     [
       ...entities,

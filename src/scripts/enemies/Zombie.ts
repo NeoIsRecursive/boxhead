@@ -129,13 +129,11 @@ export default class Zombie extends Entity {
   }
 
   die() {
-    Matter.World.remove(this.physicsComposite, this.body);
-    this.app.stage.removeChild(this.sprite!);
-
     this.dead = true;
     this.sprite.textures = this.animations['die_left'];
     this.sprite.play();
     this.sprite.onComplete = () => {
+      Matter.World.remove(this.physicsComposite, this.body);
       //ta bort zombien
       console.log('död');
     };
