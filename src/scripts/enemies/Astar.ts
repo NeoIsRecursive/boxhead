@@ -71,7 +71,7 @@ export default class Astar {
             }
           }
         }
-        //this.#draw(path);
+        // this.#draw(path);
         if (path.length > 1) path.pop();
         return path[path.length - 1].vec;
       }
@@ -98,18 +98,18 @@ export default class Astar {
     return this.#emptyVec;
   }
 
-  /*   #draw(spots: Spot[]) {
-    spots = [...spots];
-    this.#path.clear();
-    const first = spots.shift();
-    this.#path
-      .lineStyle(5, 0x000000)
-      .moveTo(first!.x * 32 + 16, first!.y * 32 + 16);
-    spots.forEach((spot) => {
-      this.#path.lineTo(spot.x * 32 + 16, spot.y * 32 + 16);
-    });
-    this.#path.endFill();
-  } */
+  // #draw(spots: Spot[]) {
+  //   spots = [...spots];
+  //   this.#path.clear();
+  //   const first = spots.shift();
+  //   this.#path
+  //     .lineStyle(5, 0x000000)
+  //     .moveTo(first!.x * 32 + 16, first!.y * 32 + 16);
+  //   spots.forEach((spot) => {
+  //     this.#path.lineTo(spot.x * 32 + 16, spot.y * 32 + 16);
+  //   });
+  //   this.#path.endFill();
+  // }
 
   #generateGrid(obstacles: Entity[], height: number, width: number) {
     const grid: Spot[][] = [];

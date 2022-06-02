@@ -80,17 +80,7 @@ export default class Game {
       this.physicsEngine.world
     );
 
-    for (let index = 0; index < 10; index++) {
-      this.enemies.push(
-        new Zombie(
-          index,
-          this.#app,
-          this.walls,
-          this.loader.resources['skeleton'].spritesheet!.animations,
-          this.physicsEngine.world
-        )
-      );
-    }
+    this.rounds.NextRound(this.enemies);
 
     this.#start();
   }
