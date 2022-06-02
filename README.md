@@ -6,7 +6,10 @@ A remake of the flashgame Boxhead, made with pixi.js & typescript.
 
 # Installation
 
-Add the installation instructions.
+clone the repository and install the dependencies and run one of the commands available.
+```
+npm install && npm run
+```
 
 # Changelog
 
@@ -30,14 +33,12 @@ Add the installation instructions.
 
 Tested by the following people:
 
-1. Jane Doe
-2. John Doe
-3. Jane Doe
-4. John Doe
+1. Patrik
+2. Chris
+3. Simon
+4. Theo
 
 Tested by the following muggles (non-coders):
 
-1. Jane Doe
-2. John Doe
-3. Jane Doe
-4. John Doe
+1,2,3,4. ...Neos familj
+5. Kompisar
