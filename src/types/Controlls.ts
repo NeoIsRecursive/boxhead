@@ -3,4 +3,5 @@ export default interface Controlls {
   left: string;
   down: string;
   right: string;
+  fire: string;
 }

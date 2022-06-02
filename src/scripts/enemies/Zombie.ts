@@ -16,6 +16,9 @@ export default class Zombie extends Entity {
     physicsComposite: Matter.World
   ) {
     super(id, physicsComposite);
+    this.app = app;
+    this.physicsComposite = physicsComposite;
+
     this.animations = animations;
     this.sprite = new PIXI.AnimatedSprite(this.animations['idle_right']);
     this.sprite.loop = false;
@@ -23,6 +26,8 @@ export default class Zombie extends Entity {
     this.sprite.height = this.size.height;
     this.sprite.width = this.size.width;
     this.body.label = 'zombie';
+
+    this.hitpoints = 100;
 
     app.stage.addChild(this.sprite!);
     this.windowHeight = app.screen.height;
@@ -37,6 +42,8 @@ export default class Zombie extends Entity {
 
   #pathFinder: Astar;
 
+  app;
+  physicsComposite;
   vel = new Vector(0);
   sprite: PIXI.AnimatedSprite;
   animations: Dict<PIXI.Texture<PIXI.Resource>[]>;
@@ -126,6 +133,7 @@ export default class Zombie extends Entity {
     this.sprite.textures = this.animations['die_left'];
     this.sprite.play();
     this.sprite.onComplete = () => {
+      Matter.World.remove(this.physicsComposite, this.body);
       //ta bort zombien
       console.log('död');
     };

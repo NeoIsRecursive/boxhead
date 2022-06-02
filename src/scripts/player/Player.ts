@@ -42,6 +42,7 @@ class Player extends Entity {
   goingDown = (): boolean => window.keys.get(this.controlls.down) || false;
   goingLeft = (): boolean => window.keys.get(this.controlls.left) || false;
   goingRight = (): boolean => window.keys.get(this.controlls.right) || false;
+  firing = (): boolean => window.keys.get(this.controlls.fire) || false;
   vel = new Vector(0, 0);
   lookingAt = new Vector(0, 0);
   speed = 4;
